@@ -7,7 +7,7 @@ workflows:
         - app_store
       vars:
         BUNDLE_ID: com.applyready.app
-      node: v20
+      node: v22
       xcode: latest
       cocoapods: default
 
