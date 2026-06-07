@@ -32,6 +32,12 @@ workflows:
           keychain add-certificates
           xcode-project use-profiles --project ios/App/App.xcodeproj
 
+      - name: Set build number
+        script: |
+          /usr/libexec/PlistBuddy \
+            -c "Set :CFBundleVersion $BUILD_NUMBER" \
+            ios/App/App/Info.plist
+
       - name: Build .ipa
         script: |
           xcode-project build-ipa \
