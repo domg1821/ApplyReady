@@ -1,8 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSubscription } from "@/hooks/useSubscription";
+import { useIAP } from "@/hooks/useIAP";
 import toast from "react-hot-toast";
-import { Infinity, CheckCircle2, Sparkles, ArrowRight, Lock, ArrowLeft } from "lucide-react";
+import { Infinity, CheckCircle2, Sparkles, ArrowRight, Lock, ArrowLeft, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
@@ -20,7 +23,32 @@ const INCLUDED = [
 ];
 
 export default function UpgradePage() {
-  const { checkout, loading } = useSubscription();
+  const router = useRouter();
+  const { checkout, loading: stripeLoading } = useSubscription();
+  const { isIOS, purchaseLifetime, restorePurchases, loading: iapLoading } = useIAP();
+  const [onIOS, setOnIOS] = useState(false);
+
+  useEffect(() => {
+    setOnIOS(isIOS());
+  }, [isIOS]);
+
+  const loading = stripeLoading || iapLoading;
+
+  const handlePurchase = async () => {
+    if (onIOS) {
+      const success = await purchaseLifetime();
+      if (success) router.replace("/dashboard?upgraded=1");
+    } else {
+      const priceId = process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID;
+      if (!priceId) { toast.error("Checkout unavailable — please try again later."); return; }
+      checkout(priceId, "payment");
+    }
+  };
+
+  const handleRestore = async () => {
+    const success = await restorePurchases();
+    if (success) router.replace("/dashboard?upgraded=1");
+  };
 
   return (
     <div className="screen bg-gray-50 dark:bg-neutral-950 animate-page-in">
@@ -46,7 +74,7 @@ export default function UpgradePage() {
         </h1>
         <p className="text-gray-500 dark:text-neutral-400 text-sm leading-relaxed mb-5">
           No subscriptions. No renewals. One payment of{" "}
-          <span className="font-bold text-gray-900 dark:text-white">$15</span>{" "}
+          <span className="font-bold text-gray-900 dark:text-white">$14.99</span>{" "}
           and every Pro feature is yours — now and every future update.
         </p>
 
@@ -57,7 +85,7 @@ export default function UpgradePage() {
             <span className="text-white/50 text-sm line-through">$99+/yr</span>
           </div>
           <div className="flex items-baseline gap-2 mb-2">
-            <span className="text-5xl font-black text-white">$15</span>
+            <span className="text-5xl font-black text-white">$14.99</span>
             <span className="text-white/60 text-base">forever</span>
           </div>
           <div className="flex items-center gap-2">
@@ -83,21 +111,29 @@ export default function UpgradePage() {
         <Button
           className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 border-0 shadow-lg shadow-amber-100 dark:shadow-amber-900/20"
           loading={loading}
-          onClick={() => {
-            const priceId = process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID;
-            if (!priceId) { toast.error("Checkout unavailable — please try again later."); return; }
-            checkout(priceId, "payment");
-          }}
+          onClick={handlePurchase}
           size="lg"
         >
           <ArrowRight className="w-5 h-5" />
-          Get Lifetime Access — $15
+          Get Lifetime Access — $14.99
         </Button>
+
+        {/* Restore purchases (iOS only) */}
+        {onIOS && (
+          <button
+            onClick={handleRestore}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-2 mt-3 py-2.5 text-sm text-gray-400 dark:text-neutral-500 hover:text-gray-600 dark:hover:text-neutral-300 transition-colors disabled:opacity-50"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            Restore purchases
+          </button>
+        )}
 
         <div className="flex items-center justify-center gap-1.5 mt-3 mb-2">
           <Sparkles className="w-3.5 h-3.5 text-gray-300 dark:text-neutral-700" />
           <p className="text-xs text-gray-400 dark:text-neutral-600 text-center">
-            Instant access after payment.
+            {onIOS ? "Payment processed securely by Apple." : "Instant access after payment."}
           </p>
         </div>
       </div>
