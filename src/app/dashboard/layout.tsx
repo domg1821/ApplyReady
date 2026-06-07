@@ -20,23 +20,24 @@ export default async function DashboardLayout({
     .single();
 
   return (
-    <div className="min-h-screen flex" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex" style={{ backgroundColor: "rgb(var(--bg))" }}>
       {/* Sidebar — desktop only */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block flex-shrink-0">
         <DashboardSidebar profile={profile} />
       </div>
 
-      {/* Main content */}
-      <main className="flex-1 min-w-0 lg:pl-60">
+      {/* Main content — scrollable */}
+      <main
+        className="flex-1 min-w-0 lg:pl-60 overflow-y-auto"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
         <div
           className="flex flex-col"
           style={{
             paddingTop: "max(1.25rem, env(safe-area-inset-top))",
-            /* bottom: 64px for bottom nav on mobile, 2rem on desktop */
             paddingBottom: "max(5rem, calc(env(safe-area-inset-bottom) + 4rem))",
             paddingLeft: "max(1.25rem, calc(env(safe-area-inset-left) + 0.25rem))",
             paddingRight: "max(1.25rem, env(safe-area-inset-right))",
-            minHeight: "100dvh",
           }}
         >
           {/* Desktop spacer only */}

@@ -36,6 +36,14 @@
 
   * { border-color: rgb(var(--border)); }
 
+  /* Enable momentum scrolling on iOS for all overflow containers */
+  .overflow-y-auto,
+  .overflow-y-scroll,
+  .overflow-auto,
+  .overflow-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+
   html { height: 100%; }
 
   body {

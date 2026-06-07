@@ -36,7 +36,7 @@ export default async function ResumesPage() {
     .order("updated_at", { ascending: false });
 
   return (
-    <div className="min-h-screen flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       {/* Header */}
       <div
         className="border-b flex-shrink-0"
