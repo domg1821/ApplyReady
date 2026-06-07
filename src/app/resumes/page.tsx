@@ -48,10 +48,10 @@ export default async function ResumesPage() {
       >
         <div className="max-w-2xl mx-auto flex items-center justify-between px-5 pb-4">
           <div className="flex items-center gap-3">
-            {/* Home link — visible on desktop where BottomNav is hidden */}
+            {/* Home link */}
             <Link
               href="/dashboard"
-              className="lg:flex hidden items-center justify-center w-8 h-8 rounded-xl transition-colors"
+              className="flex items-center justify-center w-8 h-8 rounded-xl transition-colors"
               style={{ color: "rgb(var(--text-muted))" }}
               title="Home"
             >
