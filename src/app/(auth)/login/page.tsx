@@ -1,16 +1,22 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, Eye, EyeOff, Mail, ArrowLeft } from "lucide-react";
+import { Sparkles, Eye, EyeOff, Mail, ArrowLeft, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="screen items-center justify-center"><Loader2 className="w-7 h-7 animate-spin text-indigo-400" /></div>}>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
   const [mode, setMode] = useState<"options" | "email">("options");
   const [email, setEmail] = useState("");
