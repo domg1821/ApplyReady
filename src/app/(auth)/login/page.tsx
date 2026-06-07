@@ -3,7 +3,8 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Sparkles, Eye, EyeOff, Mail, ArrowLeft, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Mail, ArrowLeft, Loader2 } from "lucide-react";
+import { AppLogo } from "@/components/ui/AppLogo";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
 import toast from "react-hot-toast";
@@ -53,9 +54,7 @@ function LoginContent() {
       <div className="flex items-center justify-between px-5 flex-shrink-0"
         style={{ paddingTop: "max(1.25rem, env(safe-area-inset-top))", paddingBottom: "1.25rem" }}>
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg gradient-brand flex items-center justify-center shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-white" />
-          </div>
+          <AppLogo size={28} />
           <span className="font-bold text-gray-900 dark:text-white text-sm">ApplyReady</span>
         </Link>
         <Link href="/signup" className="text-sm text-indigo-600 dark:text-indigo-400 font-semibold">

@@ -6,6 +6,7 @@ import {
   Sparkles, FileText, Brain, Download,
   ArrowRight, Infinity, CheckCircle2, Zap,
 } from "lucide-react";
+import { AppLogo } from "@/components/ui/AppLogo";
 
 const TOTAL_SLIDES = 3;
 
@@ -39,9 +40,7 @@ export default function OnboardingPage() {
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-4 pb-2 flex-shrink-0">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg, #4f46e5, #7c3aed)" }}>
-            <Sparkles className="w-3.5 h-3.5 text-white" />
-          </div>
+          <AppLogo size={28} />
           <span className="text-sm font-bold text-gray-900 dark:text-white">ApplyReady</span>
         </div>
         <button

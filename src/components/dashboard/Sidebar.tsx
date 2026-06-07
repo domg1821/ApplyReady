@@ -4,11 +4,12 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { memo, useState } from "react";
 import {
-  Sparkles, LayoutDashboard, FileText,
+  LayoutDashboard, FileText,
   Settings, LogOut, Menu, X, Crown, ClipboardList,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Badge } from "@/components/ui/Badge";
+import { AppLogo } from "@/components/ui/AppLogo";
 import type { Profile } from "@/types";
 import toast from "react-hot-toast";
 
@@ -46,8 +47,8 @@ const SidebarInner = memo(function SidebarInner({
       {/* Logo */}
       <div className="px-4 py-5 border-b border-gray-100 dark:border-neutral-800 flex-shrink-0">
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl gradient-brand flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+          <div className="w-8 h-8">
+            <AppLogo size={32} />
           </div>
           <span className="font-bold text-gray-900 dark:text-white">ApplyReady</span>
         </Link>
