@@ -1,56 +1,60 @@
 workflows:
   ios-app-store:
-    name: iOS App Store
+    name: ApplyReady iOS — App Store
     max_build_duration: 60
-    instance_type: mac_mini_m2
-
     environment:
       groups:
+        - app_store_credentials
         - app_store
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.applyready.app
-      node: 20
+      vars:
+        BUNDLE_ID: com.applyready.app
+      node: v20
+      xcode: latest
+      cocoapods: default
 
     scripts:
-      - name: Install dependencies
-        script: npm ci
+      - name: Install Node dependencies
+        script: npm install
 
-      - name: Sync Capacitor iOS
+      - name: Create iOS project if it doesn't exist
+        script: |
+          if [ ! -d "ios" ]; then
+            npx cap add ios
+          fi
+
+      - name: Sync Capacitor plugins to iOS
         script: npx cap sync ios
 
-      - name: Set bundle identifier and version
+      - name: Set up keychain and code signing
         script: |
-          /usr/libexec/PlistBuddy \
-            -c "Set :CFBundleIdentifier com.applyready.app" \
-            -c "Set :CFBundleShortVersionString 1.0.0" \
-            -c "Set :CFBundleVersion $BUILD_NUMBER" \
-            ios/App/App/Info.plist
-
-      - name: Build and archive
-        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
           xcode-project use-profiles
-          xcodebuild \
-            -workspace ios/App/App.xcworkspace \
-            -scheme App \
-            -configuration Release \
-            -archivePath build/App.xcarchive \
-            archive
 
-      - name: Export IPA
+      - name: Build .ipa
         script: |
           xcode-project build-ipa \
             --workspace ios/App/App.xcworkspace \
+            --scheme App \
             --config Release
 
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 
     publishing:
+      email:
+        recipients:
+          - domgbp21@gmail.com
+        notify:
+          success: true
+          failure: true
       app_store_connect:
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
+        submit_to_app_store: false
