@@ -19,12 +19,6 @@ workflows:
       - name: Sync Capacitor iOS
         script: npx cap sync ios
 
-      - name: Install provisioning profile
-        script: |
-          PROFILE_PATH="$HOME/Library/MobileDevice/Provisioning Profiles/ApplyReady.mobileprovision"
-          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
-          echo "$PROVISIONING_PROFILE" | base64 --decode > "$PROFILE_PATH"
-
       - name: Set bundle identifier and version
         script: |
           /usr/libexec/PlistBuddy \
@@ -41,7 +35,6 @@ workflows:
             -scheme App \
             -configuration Release \
             -archivePath build/App.xcarchive \
-            -allowProvisioningUpdates \
             archive
 
       - name: Export IPA
