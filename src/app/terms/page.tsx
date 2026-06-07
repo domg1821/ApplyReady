@@ -92,7 +92,7 @@ export default function TermsPage() {
         <section>
           <h2 className="font-bold text-base mb-2" style={{ color: "rgb(var(--text-primary))" }}>8. Disclaimer of Warranties</h2>
           <p>
-            ApplyReady is provided "as is" without warranties of any kind. We do not guarantee that the service will be
+            ApplyReady is provided &quot;as is&quot; without warranties of any kind. We do not guarantee that the service will be
             error-free, uninterrupted, or that AI-generated content will be suitable for any specific job application.
           </p>
         </section>

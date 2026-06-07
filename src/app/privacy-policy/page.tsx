@@ -25,7 +25,7 @@ export default function PrivacyPolicyPage() {
         <section>
           <h2 className="font-bold text-base mb-2" style={{ color: "rgb(var(--text-primary))" }}>1. Introduction</h2>
           <p>
-            ApplyReady ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains
+            ApplyReady (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) is committed to protecting your privacy. This Privacy Policy explains
             how we collect, use, and protect your personal information when you use the ApplyReady app and related services.
           </p>
         </section>

@@ -23,12 +23,14 @@ async function getHaptics() {
   if (_haptics) return _haptics;
   try {
     // Dynamic import so this doesn't crash on web builds without Capacitor
-    const { Haptics, ImpactStyle, NotificationType } = await import(
+    const { Haptics } = await import(
       /* webpackIgnore: true */ "@capacitor/haptics"
     );
     _haptics = {
-      impact: (o) => Haptics.impact({ style: o.style as ImpactStyle }),
-      notification: (o) => Haptics.notification({ type: o.type as NotificationType }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      impact: (o) => Haptics.impact({ style: o.style as any }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      notification: (o) => Haptics.notification({ type: o.type as any }),
     };
     return _haptics;
   } catch {
