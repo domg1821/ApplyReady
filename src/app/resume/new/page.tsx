@@ -75,10 +75,10 @@ export default function NewResumePage() {
   ];
 
   return (
-    <div className="max-w-2xl mx-auto animate-fade-in">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-1">New Resume</h1>
-        <p className="text-gray-500">Choose how you&apos;d like to get started.</p>
+    <div className="max-w-2xl mx-auto animate-page-in">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">New Resume</h1>
+        <p className="text-gray-400 dark:text-neutral-500 text-sm">Choose how you&apos;d like to get started.</p>
       </div>
 
       {/* Title */}

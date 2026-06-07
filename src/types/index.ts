@@ -28,7 +28,22 @@ export interface ResumeData {
   projects: Project[];
   certifications: Certification[];
   desiredRole: string;
+  industry: string;
   jobDescription: string;
+  jobType: "full-time" | "part-time" | "internship" | "volunteer" | "";
+  volunteerWork: VolunteerWork[];
+  extracurriculars: string[];
+  relevantCoursework: string[];
+}
+
+export interface VolunteerWork {
+  id: string;
+  organization: string;
+  role: string;
+  startDate: string;
+  endDate: string;
+  current: boolean;
+  description: string;
 }
 
 export interface WorkExperience {
@@ -102,7 +117,10 @@ export interface FeedbackItem {
   suggestion: string;
 }
 
-export type TemplateId = "modern" | "executive" | "minimal" | "student" | "tech";
+export type TemplateId =
+  | "modern" | "executive" | "minimal" | "student" | "tech"
+  | "creative" | "corporate" | "bold" | "elegant" | "sidebar-dark"
+  | "classic" | "navy" | "compact" | "two-column" | "gradient";
 
 export interface Template {
   id: TemplateId;

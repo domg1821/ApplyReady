@@ -11,7 +11,8 @@ import toast from "react-hot-toast";
 
 const EMPTY_DATA: ResumeData = {
   name: "", email: "", phone: "", location: "", linkedin: "", website: "",
-  summary: "", desiredRole: "", jobDescription: "",
+  summary: "", desiredRole: "", industry: "", jobDescription: "",
+  jobType: "", volunteerWork: [], extracurriculars: [], relevantCoursework: [],
   experience: [], education: [], skills: [], projects: [], certifications: [],
 };
 

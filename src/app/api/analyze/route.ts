@@ -24,16 +24,55 @@ export async function POST(req: NextRequest) {
 
   const { data: resume } = await supabase
     .from("resumes")
-    .select("raw_text")
+    .select("raw_text, resume_data, rewritten_data")
     .eq("id", resumeId)
     .eq("user_id", user.id)
     .single();
 
-  if (!resume?.raw_text) {
-    return NextResponse.json({ error: "No resume text found" }, { status: 400 });
+  if (!resume) {
+    return NextResponse.json({ error: "Resume not found" }, { status: 404 });
   }
 
-  const result = await analyzeResume(resume.raw_text);
+  // Build text to analyze — prefer raw_text, fall back to structured data
+  let textToAnalyze = resume.raw_text ?? "";
+  if (!textToAnalyze && (resume.rewritten_data || resume.resume_data)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const d: any = resume.rewritten_data ?? resume.resume_data;
+    const lines: string[] = [];
+    if (d.name) lines.push(d.name);
+    if (d.desiredRole) lines.push(d.desiredRole);
+    if (d.summary) lines.push(d.summary);
+    if (d.experience?.length) {
+      for (const exp of d.experience) {
+        lines.push(`${exp.title} at ${exp.company} (${exp.startDate ?? ""} – ${exp.current ? "Present" : exp.endDate ?? ""})`);
+        for (const b of exp.bullets ?? []) lines.push(`• ${b}`);
+      }
+    }
+    if (d.education?.length) {
+      for (const edu of d.education) {
+        lines.push(`${edu.degree} in ${edu.field} — ${edu.institution} ${edu.endDate ?? ""}`);
+      }
+    }
+    if (d.skills?.length) lines.push(`Skills: ${d.skills.join(", ")}`);
+    if (d.certifications?.length) {
+      for (const c of d.certifications) lines.push(`${c.name} — ${c.issuer} ${c.date ?? ""}`);
+    }
+    if (d.projects?.length) {
+      for (const p of d.projects) lines.push(`Project: ${p.name} — ${p.description ?? ""}`);
+    }
+    if (d.volunteerWork?.length) {
+      for (const v of d.volunteerWork) lines.push(`Volunteer: ${v.role} at ${v.organization} — ${v.description ?? ""}`);
+    }
+    if (d.extracurriculars?.length) lines.push(`Activities: ${d.extracurriculars.join(", ")}`);
+    if (d.relevantCoursework?.length) lines.push(`Relevant Coursework: ${d.relevantCoursework.join(", ")}`);
+    textToAnalyze = lines.join("\n");
+  }
+
+  if (!textToAnalyze.trim()) {
+    return NextResponse.json({ error: "No resume content found to analyze" }, { status: 400 });
+  }
+
+  const result = await analyzeResume(textToAnalyze);
 
   const serviceClient = await createServiceClient();
 

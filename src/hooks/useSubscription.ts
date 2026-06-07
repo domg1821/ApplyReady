@@ -11,13 +11,13 @@ const stripePromise = loadStripe(
 export function useSubscription() {
   const [loading, setLoading] = useState(false);
 
-  const checkout = async (priceId: string) => {
+  const checkout = async (priceId: string, mode: "subscription" | "payment" = "subscription") => {
     setLoading(true);
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ priceId }),
+        body: JSON.stringify({ priceId, mode }),
       });
 
       if (!res.ok) throw new Error("Failed to create checkout session");

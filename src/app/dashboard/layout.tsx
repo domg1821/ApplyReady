@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { DashboardSidebar } from "@/components/dashboard/Sidebar";
+import { BottomNav } from "@/components/layout/BottomNav";
 
 export default async function DashboardLayout({
   children,
@@ -19,13 +20,35 @@ export default async function DashboardLayout({
     .single();
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      <DashboardSidebar profile={profile} />
-      <main className="flex-1 min-w-0 pl-0 lg:pl-64">
-        <div className="p-6 lg:p-8 max-w-5xl mx-auto">
-          {children}
+    <div className="min-h-screen flex" style={{ backgroundColor: "rgb(var(--bg))" }}>
+      {/* Sidebar — desktop only */}
+      <div className="hidden lg:block">
+        <DashboardSidebar profile={profile} />
+      </div>
+
+      {/* Main content */}
+      <main className="flex-1 min-w-0 lg:pl-60">
+        <div
+          className="flex flex-col"
+          style={{
+            paddingTop: "max(1.25rem, env(safe-area-inset-top))",
+            /* bottom: 64px for bottom nav on mobile, 2rem on desktop */
+            paddingBottom: "max(5rem, calc(env(safe-area-inset-bottom) + 4rem))",
+            paddingLeft: "max(1.25rem, calc(env(safe-area-inset-left) + 0.25rem))",
+            paddingRight: "max(1.25rem, env(safe-area-inset-right))",
+            minHeight: "100dvh",
+          }}
+        >
+          {/* Desktop spacer only */}
+          <div className="hidden lg:block h-4 flex-shrink-0" />
+          <div className="flex-1 max-w-2xl w-full mx-auto lg:max-w-3xl lg:px-4">
+            {children}
+          </div>
         </div>
       </main>
+
+      {/* Bottom nav — mobile only */}
+      <BottomNav />
     </div>
   );
 }

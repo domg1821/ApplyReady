@@ -1,8 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_ROUTES = ["/dashboard", "/resume", "/analysis", "/settings"];
+const PROTECTED_ROUTES = ["/dashboard", "/resume", "/analysis", "/settings", "/assessment"];
 const AUTH_ROUTES = ["/login", "/signup"];
+const PUBLIC_ROUTES = ["/check-email", "/welcome", "/forgot-password", "/reset-password", "/auth", "/upgrade"];
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
@@ -37,6 +38,9 @@ export async function middleware(request: NextRequest) {
 
   const isProtected = PROTECTED_ROUTES.some((r) => path.startsWith(r));
   const isAuthRoute = AUTH_ROUTES.some((r) => path.startsWith(r));
+  const isPublic = PUBLIC_ROUTES.some((r) => path.startsWith(r));
+
+  if (isPublic) return supabaseResponse;
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone();

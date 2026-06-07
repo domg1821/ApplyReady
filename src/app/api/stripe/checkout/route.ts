@@ -7,12 +7,15 @@ export async function POST(req: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { priceId } = await req.json() as { priceId: string };
+  const { priceId, mode = "subscription" } = await req.json() as {
+    priceId: string;
+    mode?: "subscription" | "payment";
+  };
   if (!priceId) return NextResponse.json({ error: "priceId required" }, { status: 400 });
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("stripe_customer_id, email")
+    .select("stripe_customer_id")
     .eq("id", user.id)
     .single();
 
@@ -34,15 +37,22 @@ export async function POST(req: NextRequest) {
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
-    mode: "subscription",
+    mode,
     payment_method_types: ["card"],
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${appUrl}/dashboard?upgraded=1`,
     cancel_url: `${appUrl}/settings#billing`,
     metadata: { supabase_user_id: user.id },
-    subscription_data: {
-      metadata: { supabase_user_id: user.id },
-    },
+    ...(mode === "subscription" && {
+      subscription_data: {
+        metadata: { supabase_user_id: user.id },
+      },
+    }),
+    ...(mode === "payment" && {
+      payment_intent_data: {
+        metadata: { supabase_user_id: user.id },
+      },
+    }),
   });
 
   return NextResponse.json({ sessionId: session.id });

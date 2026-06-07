@@ -20,7 +20,17 @@ export async function POST(req: NextRequest) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
       const userId = session.metadata?.supabase_user_id;
-      if (userId && session.subscription) {
+      if (!userId) break;
+
+      if (session.mode === "payment") {
+        // Lifetime deal — grant pro permanently
+        await supabase.from("profiles").update({
+          subscription_tier: "pro",
+          subscription_status: "lifetime",
+          stripe_subscription_id: null,
+        }).eq("id", userId);
+      } else if (session.mode === "subscription" && session.subscription) {
+        // Regular subscription
         await supabase.from("profiles").update({
           subscription_tier: "pro",
           stripe_subscription_id: session.subscription as string,
@@ -33,26 +43,44 @@ export async function POST(req: NextRequest) {
     case "customer.subscription.updated": {
       const sub = event.data.object as Stripe.Subscription;
       const userId = sub.metadata?.supabase_user_id;
-      if (userId) {
-        const isActive = sub.status === "active" || sub.status === "trialing";
-        await supabase.from("profiles").update({
-          subscription_tier: isActive ? "pro" : "free",
-          subscription_status: sub.status,
-        }).eq("id", userId);
-      }
+      if (!userId) break;
+
+      // Don't downgrade lifetime users
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("subscription_status")
+        .eq("id", userId)
+        .single();
+
+      if (profile?.subscription_status === "lifetime") break;
+
+      const isActive = sub.status === "active" || sub.status === "trialing";
+      await supabase.from("profiles").update({
+        subscription_tier: isActive ? "pro" : "free",
+        subscription_status: sub.status,
+      }).eq("id", userId);
       break;
     }
 
     case "customer.subscription.deleted": {
       const sub = event.data.object as Stripe.Subscription;
       const userId = sub.metadata?.supabase_user_id;
-      if (userId) {
-        await supabase.from("profiles").update({
-          subscription_tier: "free",
-          stripe_subscription_id: null,
-          subscription_status: "canceled",
-        }).eq("id", userId);
-      }
+      if (!userId) break;
+
+      // Don't downgrade lifetime users
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("subscription_status")
+        .eq("id", userId)
+        .single();
+
+      if (profile?.subscription_status === "lifetime") break;
+
+      await supabase.from("profiles").update({
+        subscription_tier: "free",
+        stripe_subscription_id: null,
+        subscription_status: "canceled",
+      }).eq("id", userId);
       break;
     }
   }
