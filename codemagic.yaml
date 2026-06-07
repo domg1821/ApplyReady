@@ -4,7 +4,6 @@ workflows:
     max_build_duration: 60
     environment:
       groups:
-        - app_store_credentials
         - app_store
       vars:
         BUNDLE_ID: com.applyready.app
