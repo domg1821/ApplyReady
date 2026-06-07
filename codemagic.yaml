@@ -19,15 +19,16 @@ workflows:
       - name: Sync Capacitor iOS
         script: npx cap sync ios
 
-      - name: Set bundle identifier
+      - name: Install provisioning profile
+        script: |
+          PROFILE_PATH="$HOME/Library/MobileDevice/Provisioning Profiles/ApplyReady.mobileprovision"
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          echo "$PROVISIONING_PROFILE" | base64 --decode > "$PROFILE_PATH"
+
+      - name: Set bundle identifier and version
         script: |
           /usr/libexec/PlistBuddy \
             -c "Set :CFBundleIdentifier com.applyready.app" \
-            ios/App/App/Info.plist
-
-      - name: Set version number
-        script: |
-          /usr/libexec/PlistBuddy \
             -c "Set :CFBundleShortVersionString 1.0.0" \
             -c "Set :CFBundleVersion $BUILD_NUMBER" \
             ios/App/App/Info.plist
