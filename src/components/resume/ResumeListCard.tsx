@@ -14,7 +14,6 @@ interface Props {
     status: "draft" | "analyzed" | "rewritten";
     updated_at: string;
     template?: string;
-    analyses?: { ats_score: number }[];
   };
   accent: string;
 }
@@ -47,8 +46,6 @@ export function ResumeListCard({ resume, accent }: Props) {
     }
   };
 
-  const analysis = resume.analyses?.[0];
-
   return (
     <div className="card p-4 group flex items-center gap-4 relative overflow-hidden"
       style={{ transition: "transform 0.15s" }}
@@ -74,7 +71,6 @@ export function ResumeListCard({ resume, accent }: Props) {
           <p className="text-xs" style={{ color: "rgb(var(--text-muted))" }}>
             {new Date(resume.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
           </p>
-          {analysis && <span className="text-xs font-medium" style={{ color: "#a855f7" }}>· ATS {analysis.ats_score}</span>}
         </div>
         <p className="text-[10px] mt-0.5 capitalize" style={{ color: "rgb(var(--text-muted))" }}>
           {resume.template ?? "modern"} template
@@ -83,7 +79,7 @@ export function ResumeListCard({ resume, accent }: Props) {
 
       {/* Right side */}
       <div className="flex items-center gap-2 flex-shrink-0">
-        <Badge variant={STATUS_COLORS[resume.status]}>{resume.status}</Badge>
+        <Badge variant={STATUS_COLORS[resume.status]}>{resume.status === "analyzed" ? "draft" : resume.status}</Badge>
 
         {/* Delete button */}
         <button

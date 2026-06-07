@@ -22,7 +22,7 @@ export default async function DashboardPage({
     supabase.from("profiles").select("*").eq("id", user.id).single(),
     supabase
       .from("resumes")
-      .select("*, analyses(resume_score, ats_score)")
+      .select("*")
       .eq("user_id", user.id)
       .order("updated_at", { ascending: false })
       .limit(3),
@@ -30,10 +30,6 @@ export default async function DashboardPage({
 
   const isPro = profile?.subscription_tier === "pro";
   const firstName = profile?.full_name?.split(" ")[0] ?? "there";
-  const bestAts = resumes?.length
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? Math.max(...resumes.map((r: any) => r.analyses?.[0]?.ats_score ?? 0)) || null
-    : null;
 
   return (
     <div className="animate-page-in flex flex-col gap-5">
@@ -60,7 +56,7 @@ export default async function DashboardPage({
       <div className="grid grid-cols-3 gap-3 flex-shrink-0">
         {[
           { label: "Resumes", value: resumes?.length ?? 0, color: "#a855f7" },
-          { label: "Best ATS", value: bestAts ?? "—", color: "#10b981" },
+          { label: "Templates", value: 15, color: "#0284c7" },
           { label: "Plan", value: isPro ? "Pro ✦" : "Free", color: isPro ? "#f59e0b" : "rgb(var(--text-muted))" },
         ].map((stat) => (
           <div key={stat.label} className="card p-3 text-center">
@@ -167,40 +163,27 @@ export default async function DashboardPage({
         ) : (
           <div className="space-y-2">
             {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-            {resumes.map((resume: any) => {
-              const analysis = resume.analyses?.[0];
-              const statusColors = {
-                draft:    "default" as const,
-                analyzed: "warning" as const,
-                rewritten:"success" as const,
-              };
-              return (
-                <Link key={resume.id} href={`/resume/${resume.id}`}>
-                  <div className="card p-4 cursor-pointer group flex items-center gap-3 hover:translate-x-0.5 transition-all duration-150">
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(147,97,253,0.1)" }}>
-                      <FileCheck className="w-4 h-4" style={{ color: "#a855f7" }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-sm truncate" style={{ color: "rgb(var(--text-primary))" }}>{resume.title}</p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <p className="text-xs" style={{ color: "rgb(var(--text-muted))" }}>
-                          {new Date(resume.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
-                        </p>
-                        {analysis && (
-                          <span className="text-xs font-medium" style={{ color: "#10b981" }}>· ATS {analysis.ats_score}</span>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 flex-shrink-0">
-                      <Badge variant={statusColors[resume.status as keyof typeof statusColors]}>
-                        {resume.status}
-                      </Badge>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" style={{ color: "rgb(var(--text-muted))" }} />
-                    </div>
+            {resumes.map((resume: any) => (
+              <Link key={resume.id} href={`/resume/${resume.id}`}>
+                <div className="card p-4 cursor-pointer group flex items-center gap-3 hover:translate-x-0.5 transition-all duration-150">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(147,97,253,0.1)" }}>
+                    <FileCheck className="w-4 h-4" style={{ color: "#a855f7" }} />
                   </div>
-                </Link>
-              );
-            })}
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm truncate" style={{ color: "rgb(var(--text-primary))" }}>{resume.title}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "rgb(var(--text-muted))" }}>
+                      {new Date(resume.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Badge variant={resume.status === "rewritten" ? "success" : "default"}>
+                      {resume.status === "analyzed" ? "draft" : resume.status}
+                    </Badge>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" style={{ color: "rgb(var(--text-muted))" }} />
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>

@@ -31,7 +31,7 @@ export default async function ResumesPage() {
 
   const { data: resumes } = await supabase
     .from("resumes")
-    .select("*, analyses(resume_score, ats_score)")
+    .select("*")
     .eq("user_id", user.id)
     .order("updated_at", { ascending: false });
 
@@ -51,11 +51,10 @@ export default async function ResumesPage() {
             {/* Home link */}
             <Link
               href="/dashboard"
-              className="flex items-center justify-center w-8 h-8 rounded-xl transition-colors"
-              style={{ color: "rgb(var(--text-muted))" }}
-              title="Home"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors"
+              style={{ backgroundColor: "rgb(var(--surface-2))", color: "rgb(var(--text-secondary))", border: "1px solid rgb(var(--border))" }}
             >
-              <LayoutDashboard className="w-5 h-5" />
+              <LayoutDashboard className="w-3.5 h-3.5" /> Home
             </Link>
             <div>
               <h1 className="text-xl font-bold" style={{ color: "rgb(var(--text-primary))" }}>My Resumes</h1>

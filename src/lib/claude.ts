@@ -1,49 +1,8 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { ResumeData, Analysis } from "@/types";
+import type { ResumeData } from "@/types";
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY! });
-const MODEL = "claude-sonnet-4-5"; // faster than 4-6 for structured outputs
-
-export async function analyzeResume(
-  rawText: string
-): Promise<Omit<Analysis, "id" | "resume_id" | "user_id" | "created_at">> {
-  const message = await client.messages.create({
-    model: MODEL,
-    max_tokens: 1500,
-    messages: [{
-      role: "user",
-      content: `You are an expert resume coach. Analyze this resume and return ONLY a valid JSON object with no markdown.
-
-RESUME:
-${rawText.slice(0, 6000)}
-
-JSON schema:
-{
-  "resume_score": number (0-100),
-  "ats_score": number (0-100),
-  "summary_feedback": string (2-3 sentences),
-  "keywords_present": string[],
-  "keywords_missing": string[],
-  "feedback": [{
-    "category": "bullet_points"|"formatting"|"keywords"|"summary"|"achievements"|"general",
-    "severity": "high"|"medium"|"low",
-    "title": string,
-    "description": string,
-    "suggestion": string
-  }]
-}
-
-Rules: Be specific. Give 5-8 feedback items. Score honestly. Return ONLY JSON.`,
-    }],
-  });
-
-  const content = message.content[0];
-  if (content.type !== "text") throw new Error("Unexpected response");
-
-  // Strip any accidental markdown code fences
-  const cleaned = content.text.replace(/^```json?\n?/, "").replace(/\n?```$/, "").trim();
-  return JSON.parse(cleaned) as Omit<Analysis, "id" | "resume_id" | "user_id" | "created_at">;
-}
+const MODEL = "claude-sonnet-4-5";
 
 export async function rewriteResume(resumeData: ResumeData): Promise<ResumeData> {
   const message = await client.messages.create({

@@ -96,27 +96,6 @@ export interface Resume {
   updated_at: string;
 }
 
-export interface Analysis {
-  id: string;
-  resume_id: string;
-  user_id: string;
-  resume_score: number;
-  ats_score: number;
-  feedback: FeedbackItem[];
-  keywords_missing: string[];
-  keywords_present: string[];
-  summary_feedback: string;
-  created_at: string;
-}
-
-export interface FeedbackItem {
-  category: "bullet_points" | "formatting" | "keywords" | "summary" | "achievements" | "general";
-  severity: "high" | "medium" | "low";
-  title: string;
-  description: string;
-  suggestion: string;
-}
-
 export type TemplateId =
   | "modern" | "executive" | "minimal" | "student" | "tech"
   | "creative" | "corporate" | "bold" | "elegant" | "sidebar-dark"
