@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
+import { AppLogo } from "@/components/ui/AppLogo";
 
 export default function SplashPage() {
   const router = useRouter();
@@ -47,7 +47,7 @@ export default function SplashPage() {
         {/* Center content */}
         <div className="relative flex flex-col items-center gap-5" style={{ animation: "splashReveal 0.7s cubic-bezier(0.34,1.56,0.64,1) both" }}>
           <div className="w-24 h-24 rounded-[32px] bg-white/20 backdrop-blur-sm flex items-center justify-center shadow-2xl border border-white/30">
-            <Sparkles className="w-12 h-12 text-white drop-shadow-lg" />
+            <AppLogo size={72} className="rounded-2xl" />
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-black text-white tracking-tight" style={{ textShadow: "0 2px 20px rgba(0,0,0,0.2)" }}>
