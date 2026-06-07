@@ -20,8 +20,8 @@ const STEPS = [
     position: "center",
   },
   {
-    title: "Analyse & Rewrite",
-    body: "Once your resume is ready, run an AI analysis to get your score, then let the AI rewrite it for maximum impact.",
+    title: "AI Rewrite",
+    body: "Once your resume is ready, let the AI rewrite it with powerful action verbs and impactful language for maximum results.",
     position: "center",
   },
   {

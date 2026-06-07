@@ -13,9 +13,7 @@ const INCLUDED = [
   "Interview Prep — 8 tailored questions with answer frameworks",
   "AI Assessment chat with resume generation",
   "All 15 professional templates",
-  "PDF export in one tap",
-  "Unlimited resume analyses",
-  "ATS score & keyword optimization",
+  "PDF & Word export in one tap",
   "Every future feature automatically included",
   "Priority support",
 ];

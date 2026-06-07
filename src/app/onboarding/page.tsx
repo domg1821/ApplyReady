@@ -153,7 +153,7 @@ function SlideHero() {
 function SlideSteps() {
   const steps = [
     { num: "01", text: "Chat with Alex — your AI resume coach", icon: FileText },
-    { num: "02", text: "AI scores, analyses and rewrites everything", icon: Brain },
+    { num: "02", text: "AI optimizes and rewrites your resume for maximum impact", icon: Brain },
     { num: "03", text: "Choose a template, download your PDF, apply", icon: Zap },
   ];
   return (
@@ -195,7 +195,7 @@ function SlidePlans({ onPlan }: { onPlan: (p: "free" | "lifetime") => void }) {
             <span className="text-xl font-bold text-gray-900 dark:text-white">$0</span>
           </div>
           <ul className="space-y-2">
-            {["1 resume analysis", "ATS score & feedback", "Personalised resume guide"].map((f) => (
+            {["1 AI resume rewrite", "Alex the AI coach included", "Personalised resume guide"].map((f) => (
               <li key={f} className="flex items-center gap-2 text-sm text-gray-400 dark:text-neutral-500">
                 <CheckCircle2 className="w-3.5 h-3.5 text-gray-300 dark:text-neutral-600 flex-shrink-0" /> {f}
               </li>

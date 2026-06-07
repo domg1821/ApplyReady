@@ -5,10 +5,10 @@ import { useRouter } from "next/navigation";
 import { Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 
 const PERKS = [
-  "AI resume analysis — instant score & feedback",
+  "AI-powered resume builder with Alex",
   "Full resume rewrite powered by Claude AI",
   "15 professional templates to choose from",
-  "PDF export in one tap",
+  "PDF & Word export in one tap",
 ];
 
 export default function WelcomePage() {

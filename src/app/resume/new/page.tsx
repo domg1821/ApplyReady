@@ -163,7 +163,7 @@ export default function NewResumePage() {
             Back
           </Button>
           <Button onClick={handleCreate} loading={creating} className="flex-1">
-            {mode === "scratch" ? "Start building" : "Continue to analysis"}
+            {mode === "scratch" ? "Start building" : "Continue"}
             <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
