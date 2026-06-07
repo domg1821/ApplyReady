@@ -9,7 +9,7 @@ const config: CapacitorConfig = {
   // This keeps all API routes, server components, and auth working.
   // Replace the URL with your actual Vercel domain before building.
   server: {
-    url: "https://applyready.vercel.app", // 👈 change to your Vercel URL
+    url: "https://apply-ready-nine.vercel.app",
     cleartext: false,
   },
 
