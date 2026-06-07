@@ -53,7 +53,8 @@ function SignupContent() {
     });
     if (error) { toast.error(error.message); setLoading(false); return; }
     if (plan) sessionStorage.setItem("selectedPlan", plan);
-    router.push(`/check-email?email=${encodeURIComponent(email)}`);
+    toast.success("Account created!");
+    router.push("/onboarding");
   };
 
   return (
