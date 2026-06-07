@@ -54,7 +54,10 @@ export async function maybeRequestReview(userId: string): Promise<void> {
   if (state.lastPromptedAt && now - state.lastPromptedAt < THIRTY_DAYS) return;
 
   try {
-    const { RateApp } = await import(/* webpackIgnore: true */ "@capacitor-community/rate-app");
+    // Dynamic import with variable to prevent TypeScript from resolving the module at build time
+    const pkg = "@capacitor-community/rate-app";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { RateApp } = await import(/* webpackIgnore: true */ pkg as any);
     await RateApp.requestReview();
     setState(userId, { promptCount: newCount, lastPromptedAt: now });
   } catch {
