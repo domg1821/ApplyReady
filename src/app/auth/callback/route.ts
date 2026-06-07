@@ -16,8 +16,8 @@ export async function GET(req: NextRequest) {
         return NextResponse.redirect(`${origin}/reset-password`);
       }
 
-      // New signup — go to welcome page
-      return NextResponse.redirect(`${origin}/welcome`);
+      // New signup / OAuth — go to onboarding
+      return NextResponse.redirect(`${origin}/onboarding`);
     }
   }
 
