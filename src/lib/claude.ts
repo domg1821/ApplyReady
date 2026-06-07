@@ -7,7 +7,7 @@ const MODEL = "claude-sonnet-4-5";
 export async function rewriteResume(resumeData: ResumeData): Promise<ResumeData> {
   const message = await client.messages.create({
     model: MODEL,
-    max_tokens: 4000,
+    max_tokens: 8096,
     messages: [{
       role: "user",
       content: `You are an expert resume writer. Rewrite and optimize this resume. Return ONLY the improved JSON object — same structure as input, no markdown.
@@ -45,7 +45,7 @@ export async function extractResumeFromText(rawText: string): Promise<Partial<Re
       content: `Extract structured resume data from this text. Return ONLY valid JSON — no markdown.
 
 TEXT:
-${rawText.slice(0, 5000)}
+${rawText.slice(0, 8000)}
 
 JSON schema (omit fields you can't find):
 {

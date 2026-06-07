@@ -42,7 +42,7 @@ function LoginContent() {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) { toast.error(error.message); setLoading(false); return; }
     toast.success("Welcome back!");
-    const onboarded = (() => { try { return localStorage.getItem("applyready_onboarded"); } catch { return "1"; } })();
+    const onboarded = (() => { try { return localStorage.getItem("applyready_onboarded"); } catch { return null; } })();
     router.push(onboarded ? "/dashboard" : "/onboarding");
     router.refresh();
   };

@@ -16,8 +16,20 @@ export async function GET(req: NextRequest) {
         return NextResponse.redirect(`${origin}/reset-password`);
       }
 
-      // New signup / OAuth — go to onboarding
-      return NextResponse.redirect(`${origin}/onboarding`);
+      // Check if this is a new user (no resumes yet) or returning user
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { count } = await supabase
+          .from("resumes")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id);
+        // New user = no resumes → onboarding. Returning user → dashboard.
+        if (!count || count === 0) {
+          return NextResponse.redirect(`${origin}/onboarding`);
+        }
+      }
+
+      return NextResponse.redirect(`${origin}/dashboard`);
     }
   }
 

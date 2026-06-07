@@ -1,6 +1,7 @@
 "use client";
 
 import { useSubscription } from "@/hooks/useSubscription";
+import toast from "react-hot-toast";
 import { Infinity, CheckCircle2, Sparkles, ArrowRight, Lock, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
@@ -82,7 +83,11 @@ export default function UpgradePage() {
         <Button
           className="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 border-0 shadow-lg shadow-amber-100 dark:shadow-amber-900/20"
           loading={loading}
-          onClick={() => checkout(process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID ?? "", "payment")}
+          onClick={() => {
+            const priceId = process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID;
+            if (!priceId) { toast.error("Checkout unavailable — please try again later."); return; }
+            checkout(priceId, "payment");
+          }}
           size="lg"
         >
           <ArrowRight className="w-5 h-5" />

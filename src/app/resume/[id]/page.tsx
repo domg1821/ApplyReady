@@ -26,6 +26,7 @@ export default function ResumePage() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
   const [activeAction, setActiveAction] = useState<LoadingKey>(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const [template, setTemplate] = useState<TemplateId>("modern");
 
   const isPro = profile?.subscription_tier === "pro";
@@ -127,7 +128,8 @@ export default function ResumePage() {
   }, [id, router]);
 
   const handleDelete = useCallback(async () => {
-    if (!window.confirm(`Delete "${resume?.title}"? This cannot be undone.`)) return;
+    if (!confirmDelete) { setConfirmDelete(true); return; }
+    setConfirmDelete(false);
     setActiveAction("deleting");
     try {
       const res = await fetch(`/api/resume/${id}`, { method: "DELETE" });
@@ -138,7 +140,7 @@ export default function ResumePage() {
       toast.error("Failed to delete — please try again.");
       if (mountedRef.current) setActiveAction(null);
     }
-  }, [id, resume?.title, router]);
+  }, [confirmDelete, id, router]);
 
   const saveTemplate = useCallback(async (t: TemplateId) => {
     setTemplate(t);
@@ -190,11 +192,24 @@ export default function ResumePage() {
               {activeAction === "duplicating" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Copy className="w-3.5 h-3.5" />}
             </button>
             {/* Delete */}
-            <button onClick={handleDelete} disabled={!!activeAction}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
-              title="Delete resume">
-              {activeAction === "deleting" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Trash2 className="w-3.5 h-3.5" />}
-            </button>
+            {confirmDelete ? (
+              <div className="flex items-center gap-1">
+                <button onClick={() => setConfirmDelete(false)}
+                  className="px-2 py-1.5 rounded-xl text-xs font-semibold text-gray-500 bg-gray-100 dark:bg-neutral-800 transition-colors">
+                  Cancel
+                </button>
+                <button onClick={handleDelete} disabled={!!activeAction}
+                  className="px-2 py-1.5 rounded-xl text-xs font-semibold text-white bg-red-500 hover:bg-red-600 transition-colors">
+                  {activeAction === "deleting" ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : "Delete"}
+                </button>
+              </div>
+            ) : (
+              <button onClick={handleDelete} disabled={!!activeAction}
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-semibold text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
+                title="Delete resume">
+                <Trash2 className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
         </div>
 

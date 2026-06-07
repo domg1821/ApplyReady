@@ -18,7 +18,7 @@ export default async function DashboardPage({
   const isWelcome = params.welcome === "1";
   const isUpgraded = params.upgraded === "1";
 
-  const [{ data: profile }, { data: resumes }] = await Promise.all([
+  const [{ data: profile }, { data: resumes }, { count: resumeCount }] = await Promise.all([
     supabase.from("profiles").select("*").eq("id", user.id).single(),
     supabase
       .from("resumes")
@@ -26,6 +26,10 @@ export default async function DashboardPage({
       .eq("user_id", user.id)
       .order("updated_at", { ascending: false })
       .limit(3),
+    supabase
+      .from("resumes")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id),
   ]);
 
   const isPro = profile?.subscription_tier === "pro";
@@ -55,7 +59,7 @@ export default async function DashboardPage({
       {/* Stats bar */}
       <div className="grid grid-cols-3 gap-3 flex-shrink-0">
         {[
-          { label: "Resumes", value: resumes?.length ?? 0, color: "#a855f7" },
+          { label: "Resumes", value: resumeCount ?? 0, color: "#a855f7" },
           { label: "Templates", value: 15, color: "#0284c7" },
           { label: "Plan", value: isPro ? "Pro ✦" : "Free", color: isPro ? "#f59e0b" : "rgb(var(--text-muted))" },
         ].map((stat) => (
