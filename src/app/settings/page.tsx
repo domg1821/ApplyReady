@@ -86,13 +86,13 @@ export default function SettingsPage() {
 
   return (
     <div
-      className="min-h-screen animate-page-in"
-      style={{ backgroundColor: "rgb(var(--bg))", paddingTop: "max(1rem, env(safe-area-inset-top))" }}
+      className="fixed inset-0 flex flex-col animate-page-in"
+      style={{ backgroundColor: "rgb(var(--bg))" }}
     >
       {/* Header */}
       <div
-        className="border-b mb-5"
-        style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))" }}
+        className="border-b flex-shrink-0"
+        style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1rem, env(safe-area-inset-top))" }}
       >
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
           <button
@@ -106,6 +106,7 @@ export default function SettingsPage() {
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 pb-28">
 
         {/* Profile */}
@@ -273,6 +274,7 @@ export default function SettingsPage() {
             Built with ❤️ for job seekers everywhere
           </p>
         </div>
+      </div>
       </div>
 
       {/* Delete modal */}

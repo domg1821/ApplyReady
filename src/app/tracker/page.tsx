@@ -176,7 +176,7 @@ export default function TrackerPage() {
   }
 
   return (
-    <div className="min-h-screen animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       {/* Header */}
       <div className="border-b flex-shrink-0"
         style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1.25rem, env(safe-area-inset-top))" }}>
@@ -237,6 +237,7 @@ export default function TrackerPage() {
       </div>
 
       {/* List */}
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 py-4 pb-28">
         {filtered.length === 0 ? (
           <div className="card p-10 text-center mt-4">
@@ -280,6 +281,7 @@ export default function TrackerPage() {
             })}
           </div>
         )}
+      </div>
       </div>
 
       {/* Add Modal */}

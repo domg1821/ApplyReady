@@ -251,7 +251,7 @@ export default function ResumePage() {
       </div>
 
       {/* A4 Document area */}
-      <div className="flex-1 overflow-y-auto" style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 4rem)" }}>
+      <div className="flex-1 overflow-y-auto min-h-0" style={{ paddingBottom: "calc(env(safe-area-inset-bottom) + 4rem)" }}>
         {displayData ? (
           <ResumePreview data={displayData} template={template} isPro={isPro} fullPage />
         ) : (

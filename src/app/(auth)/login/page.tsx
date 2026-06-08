@@ -52,7 +52,7 @@ function LoginContent() {
     <div className="screen bg-gray-50 dark:bg-neutral-950 animate-page-in">
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 flex-shrink-0"
-        style={{ paddingTop: "max(1.25rem, env(safe-area-inset-top))", paddingBottom: "1.25rem" }}>
+        style={{ paddingTop: "max(1rem, env(safe-area-inset-top))", paddingBottom: "1rem" }}>
         <Link href="/" className="flex items-center gap-2">
           <AppLogo size={28} />
           <span className="font-bold text-gray-900 dark:text-white text-sm">ApplyReady</span>

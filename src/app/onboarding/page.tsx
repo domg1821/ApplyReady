@@ -38,7 +38,7 @@ export default function OnboardingPage() {
   return (
     <div className="screen overflow-hidden bg-white dark:bg-neutral-950">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 pt-4 pb-2 flex-shrink-0">
+      <div className="flex items-center justify-between px-5 pb-2 flex-shrink-0" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
         <div className="flex items-center gap-2">
           <AppLogo size={28} />
           <span className="text-sm font-bold text-gray-900 dark:text-white">ApplyReady</span>
@@ -52,7 +52,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Slide */}
-      <div key={slideKey} className="flex-1 flex flex-col px-5 pt-3 pb-0 overflow-hidden animate-slide-in-right">
+      <div key={slideKey} className="flex-1 flex flex-col px-5 pt-3 pb-0 overflow-x-hidden overflow-y-auto animate-slide-in-right">
         {slide === 0 && <SlideHero />}
         {slide === 1 && <SlideSteps />}
         {slide === 2 && <SlidePlans onPlan={finish} />}

@@ -93,7 +93,7 @@ export default function JobMatchPage() {
   const priorityColor = { high: "#ef4444", medium: "#f59e0b", low: "#10b981" };
 
   return (
-    <div className="min-h-screen animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       <div className="border-b" style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
           <button onClick={() => router.push("/tools")} className="p-1.5 rounded-xl" style={{ color: "rgb(var(--text-muted))" }}><ArrowLeft className="w-5 h-5" /></button>
@@ -105,6 +105,7 @@ export default function JobMatchPage() {
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 py-5 pb-28 space-y-4">
         <div>
           <label className="label">Your resume</label>
@@ -196,6 +197,7 @@ export default function JobMatchPage() {
             )}
           </div>
         )}
+      </div>
       </div>
 
       <BottomNav />

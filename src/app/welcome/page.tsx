@@ -22,8 +22,8 @@ export default function WelcomePage() {
 
   return (
     <div className="screen bg-gray-50 dark:bg-neutral-950 animate-page-in">
-      {/* Top accent */}
-      <div className="h-1 w-full gradient-brand flex-shrink-0" />
+      {/* Top accent — sits below safe area */}
+      <div className="h-1 w-full gradient-brand flex-shrink-0" style={{ marginTop: "env(safe-area-inset-top)" }} />
 
       <div
         className={`flex-1 flex flex-col px-5 pt-10 pb-safe overflow-y-auto transition-all duration-700 ${

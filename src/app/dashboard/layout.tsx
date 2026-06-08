@@ -28,7 +28,7 @@ export default async function DashboardLayout({
 
       {/* Main content — scrollable */}
       <main
-        className="flex-1 min-w-0 lg:pl-60 overflow-y-auto"
+        className="flex-1 min-w-0 min-h-0 lg:pl-60 overflow-y-auto"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
         <div

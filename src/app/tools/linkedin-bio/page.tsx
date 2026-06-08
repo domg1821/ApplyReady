@@ -89,7 +89,7 @@ export default function LinkedInBioPage() {
   );
 
   if (resumes.length === 0) return (
-    <div className="min-h-screen" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col" style={{ backgroundColor: "rgb(var(--bg))" }}>
       <div className="border-b" style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
           <button onClick={() => router.push("/tools")} className="p-1.5 rounded-xl" style={{ color: "rgb(var(--text-muted))" }}><ArrowLeft className="w-5 h-5" /></button>
@@ -112,7 +112,7 @@ export default function LinkedInBioPage() {
   const wordCount = result ? result.split(/\s+/).length : 0;
 
   return (
-    <div className="min-h-screen animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       <div className="border-b" style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1rem, env(safe-area-inset-top))" }}>
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
           <button onClick={() => router.push("/tools")} className="p-1.5 rounded-xl" style={{ color: "rgb(var(--text-muted))" }}><ArrowLeft className="w-5 h-5" /></button>
@@ -129,6 +129,7 @@ export default function LinkedInBioPage() {
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 py-5 pb-28 space-y-4">
         {!isPro && hasFreeTrial(userId, TOOL) && (
           <div className="rounded-2xl p-3 flex items-center gap-3" style={{ background: "linear-gradient(135deg, rgba(13,148,136,0.1), rgba(2,132,199,0.1))", border: "1px solid rgba(13,148,136,0.25)" }}>
@@ -212,6 +213,7 @@ export default function LinkedInBioPage() {
             )}
           </div>
         )}
+      </div>
       </div>
       <BottomNav />
     </div>

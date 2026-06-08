@@ -28,7 +28,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="screen bg-gray-50 dark:bg-neutral-950 animate-page-in">
-      <div className="flex items-center px-5 pt-4 pb-4 flex-shrink-0">
+      <div className="flex items-center px-5 flex-shrink-0" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))", paddingBottom: "1rem" }}>
         <Link href="/login" className="flex items-center gap-2 text-gray-500 dark:text-neutral-400 hover:text-gray-700 dark:hover:text-neutral-200 transition-colors">
           <ArrowLeft className="w-4 h-4" />
           <span className="text-sm font-medium">Back to login</span>

@@ -327,7 +327,7 @@ export default function AssessmentPage() {
           </button>
         </div>
 
-        <div className="flex-1 flex flex-col justify-center px-5" style={{ paddingBottom: "max(5rem, calc(env(safe-area-inset-bottom) + 4rem))" }}>
+        <div className="flex-1 overflow-y-auto min-h-0 flex flex-col px-5 py-4" style={{ paddingBottom: "max(5rem, calc(env(safe-area-inset-bottom) + 4rem))" }}>
           <div className="w-16 h-16 rounded-3xl gradient-brand flex items-center justify-center mb-6 shadow-lg shadow-indigo-100 dark:shadow-indigo-900/30">
             <Sparkles className="w-8 h-8 text-white" />
           </div>

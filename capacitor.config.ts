@@ -15,7 +15,7 @@ const config: CapacitorConfig = {
 
   // iOS-specific settings
   ios: {
-    contentInset: "always",
+    contentInset: "never",
     scrollEnabled: false,
   },
 

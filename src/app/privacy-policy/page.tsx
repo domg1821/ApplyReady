@@ -5,9 +5,9 @@ export default function PrivacyPolicyPage() {
   const lastUpdated = "June 7, 2026";
 
   return (
-    <div className="min-h-screen animate-page-in" style={{ backgroundColor: "rgb(var(--bg))", paddingTop: "max(1.25rem, env(safe-area-inset-top))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       {/* Header */}
-      <div className="border-b mb-6" style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))" }}>
+      <div className="border-b flex-shrink-0" style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1.25rem, env(safe-area-inset-top))" }}>
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
           <Link href="/settings" className="p-1.5 rounded-xl transition-colors" style={{ color: "rgb(var(--text-muted))" }}>
             <ArrowLeft className="w-5 h-5" />
@@ -19,6 +19,7 @@ export default function PrivacyPolicyPage() {
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 pb-16 space-y-6 text-sm leading-relaxed" style={{ color: "rgb(var(--text-secondary))" }}>
         <p className="text-xs" style={{ color: "rgb(var(--text-muted))" }}>Last updated: {lastUpdated}</p>
 
@@ -119,6 +120,7 @@ export default function PrivacyPolicyPage() {
             </a>.
           </p>
         </section>
+      </div>
       </div>
     </div>
   );

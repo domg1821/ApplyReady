@@ -74,7 +74,7 @@ export default async function ToolsPage() {
   const isPro = profile?.subscription_tier === "pro";
 
   return (
-    <div className="min-h-screen animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       {/* Header */}
       <div
         className="border-b flex-shrink-0"
@@ -112,6 +112,7 @@ export default async function ToolsPage() {
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 py-5 pb-28">
         {/* Pro banner for free users */}
         {!isPro && (
@@ -225,6 +226,7 @@ export default async function ToolsPage() {
             <span className="font-bold" style={{ color: "#a855f7" }}>+ button</span> below to chat with Alex and build yours.
           </p>
         </div>
+      </div>
       </div>
 
       <BottomNav />

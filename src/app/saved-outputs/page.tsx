@@ -64,7 +64,7 @@ export default function SavedOutputsPage() {
   const filtered = filter === "all" ? outputs : outputs.filter((o) => o.tool === filter);
 
   return (
-    <div className="min-h-screen animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
+    <div className="fixed inset-0 flex flex-col animate-page-in" style={{ backgroundColor: "rgb(var(--bg))" }}>
       {/* Header */}
       <div
         className="border-b"
@@ -106,6 +106,7 @@ export default function SavedOutputsPage() {
         </div>
       </div>
 
+      <div className="flex-1 overflow-y-auto min-h-0">
       <div className="max-w-2xl mx-auto px-5 py-5 pb-28">
         {filtered.length === 0 ? (
           <div className="card p-10 text-center mt-4">
@@ -181,6 +182,7 @@ export default function SavedOutputsPage() {
             })}
           </div>
         )}
+      </div>
       </div>
 
       <BottomNav />

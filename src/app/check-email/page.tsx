@@ -34,7 +34,7 @@ function CheckEmailContent() {
   };
 
   return (
-    <div className="screen bg-gray-50 dark:bg-neutral-950 items-center justify-center px-5 animate-page-in">
+    <div className="screen bg-gray-50 dark:bg-neutral-950 items-center justify-center px-5 animate-page-in" style={{ paddingTop: "env(safe-area-inset-top)" }}>
       {/* Animated envelope */}
       <div className="relative mb-8">
         <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-2xl shadow-indigo-200 dark:shadow-indigo-900/40">

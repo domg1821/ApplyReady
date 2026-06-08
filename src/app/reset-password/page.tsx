@@ -30,7 +30,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="screen bg-gray-50 dark:bg-neutral-950">
-      <div className="flex items-center justify-center px-5 pt-4 pb-4 flex-shrink-0">
+      <div className="flex items-center justify-center px-5 flex-shrink-0" style={{ paddingTop: "max(1rem, env(safe-area-inset-top))", paddingBottom: "1rem" }}>
         <div className="w-8 h-8 rounded-xl gradient-brand flex items-center justify-center">
           <Sparkles className="w-4 h-4 text-white" />
         </div>

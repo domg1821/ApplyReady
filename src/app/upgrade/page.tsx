@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useIAP } from "@/hooks/useIAP";
+import { createClient } from "@/lib/supabase/client";
 import toast from "react-hot-toast";
 import { Infinity, CheckCircle2, Sparkles, ArrowRight, Lock, ArrowLeft, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -25,12 +26,20 @@ const INCLUDED = [
 export default function UpgradePage() {
   const router = useRouter();
   const { checkout, loading: stripeLoading } = useSubscription();
-  const { isIOS, purchaseLifetime, restorePurchases, loading: iapLoading } = useIAP();
+  const { isIOS, initializePurchases, purchaseLifetime, restorePurchases, loading: iapLoading } = useIAP();
   const [onIOS, setOnIOS] = useState(false);
 
   useEffect(() => {
-    setOnIOS(isIOS());
-  }, [isIOS]);
+    const ios = isIOS();
+    setOnIOS(ios);
+    if (ios) {
+      const supabase = createClient();
+      supabase.auth.getUser().then(({ data: { user } }) => {
+        if (user) initializePurchases(user.id);
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const loading = stripeLoading || iapLoading;
 
@@ -52,8 +61,8 @@ export default function UpgradePage() {
 
   return (
     <div className="screen bg-gray-50 dark:bg-neutral-950 animate-page-in">
-      {/* Top accent */}
-      <div className="h-1 w-full bg-gradient-to-r from-amber-400 to-orange-500 flex-shrink-0" />
+      {/* Top accent — sits below safe area */}
+      <div className="h-1 w-full bg-gradient-to-r from-amber-400 to-orange-500 flex-shrink-0" style={{ marginTop: "env(safe-area-inset-top)" }} />
 
       {/* Back nav */}
       <div className="flex items-center px-5 pt-3 flex-shrink-0">

@@ -23,60 +23,49 @@ export function BottomNav() {
   return (
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      style={{
+        background: "rgba(8,8,20,0.96)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderTop: "1px solid rgba(30,30,62,0.8)",
+        paddingBottom: "env(safe-area-inset-bottom)",
+      }}
     >
-      {/* Backdrop */}
-      <div
-        className="border-t"
-        style={{
-          borderColor: "rgba(30,30,62,0.8)",
-          background: "rgba(8,8,20,0.92)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-        }}
-      >
-        <div className="flex items-stretch h-16">
-          {/* Left tabs */}
-          {LEFT_TABS.map(({ href, icon: Icon, label }) => {
-            const active = isActive(href);
-            return (
-              <NavTab key={href} href={href} icon={Icon} label={label} active={active} />
-            );
-          })}
+      <div className="flex items-stretch h-[60px]">
+        {/* Left tabs */}
+        {LEFT_TABS.map(({ href, icon: Icon, label }) => (
+          <NavTab key={href} href={href} icon={Icon} label={label} active={isActive(href)} />
+        ))}
 
-          {/* Center FAB */}
-          <div className="flex-1 flex items-center justify-center">
-            <Link
-              href="/assessment"
-              className="relative flex items-center justify-center"
-              style={{ WebkitTapHighlightColor: "transparent" }}
+        {/* Center FAB */}
+        <div className="flex-1 flex items-center justify-center">
+          <Link
+            href="/assessment"
+            className="relative flex items-center justify-center"
+            style={{ WebkitTapHighlightColor: "transparent" }}
+          >
+            <div
+              className="absolute inset-0 rounded-2xl opacity-40 animate-pulse-glow"
+              style={{ background: "linear-gradient(135deg, #a855f7, #6d28d9)" }}
+            />
+            <div
+              className="relative w-13 h-13 rounded-2xl flex items-center justify-center shadow-lg -mt-4 active:scale-90 transition-all duration-150"
+              style={{
+                width: 52,
+                height: 52,
+                background: "linear-gradient(135deg, #a855f7 0%, #7c3aed 50%, #6d28d9 100%)",
+                boxShadow: "0 4px 20px rgba(147,97,253,0.5), 0 0 0 1px rgba(147,97,253,0.3)",
+              }}
             >
-              {/* Glow ring */}
-              <div
-                className="absolute inset-0 rounded-2xl opacity-40 animate-pulse-glow"
-                style={{ background: "linear-gradient(135deg, #a855f7, #6d28d9)" }}
-              />
-              {/* Button */}
-              <div
-                className="relative w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg -mt-5 active:scale-90 transition-all duration-150"
-                style={{
-                  background: "linear-gradient(135deg, #a855f7 0%, #7c3aed 50%, #6d28d9 100%)",
-                  boxShadow: "0 4px 20px rgba(147,97,253,0.5), 0 0 0 1px rgba(147,97,253,0.3)",
-                }}
-              >
-                <Plus className="w-7 h-7 text-white" strokeWidth={2.5} />
-              </div>
-            </Link>
-          </div>
-
-          {/* Right tabs */}
-          {RIGHT_TABS.map(({ href, icon: Icon, label }) => {
-            const active = isActive(href);
-            return (
-              <NavTab key={href} href={href} icon={Icon} label={label} active={active} />
-            );
-          })}
+              <Plus className="w-6 h-6 text-white" strokeWidth={2.5} />
+            </div>
+          </Link>
         </div>
+
+        {/* Right tabs */}
+        {RIGHT_TABS.map(({ href, icon: Icon, label }) => (
+          <NavTab key={href} href={href} icon={Icon} label={label} active={isActive(href)} />
+        ))}
       </div>
     </nav>
   );
@@ -96,7 +85,7 @@ function NavTab({
       className="flex-1 flex flex-col items-center justify-center gap-0.5 relative transition-all duration-150 active:scale-90 select-none"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
-      {/* Top glow line */}
+      {/* Active indicator line at top */}
       <span
         className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-300"
         style={{
@@ -108,10 +97,8 @@ function NavTab({
 
       {/* Icon */}
       <div
-        className="flex items-center justify-center w-10 h-6 rounded-xl transition-all duration-200"
-        style={{
-          backgroundColor: active ? "rgba(147,97,253,0.15)" : "transparent",
-        }}
+        className="flex items-center justify-center w-9 h-6 rounded-xl transition-all duration-200"
+        style={{ backgroundColor: active ? "rgba(147,97,253,0.15)" : "transparent" }}
       >
         <Icon
           className="w-5 h-5 transition-all duration-200"
