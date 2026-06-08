@@ -49,7 +49,7 @@ export function BottomNav() {
               style={{ background: "linear-gradient(135deg, #a855f7, #6d28d9)" }}
             />
             <div
-              className="relative w-13 h-13 rounded-2xl flex items-center justify-center shadow-lg -mt-4 active:scale-90 transition-all duration-150"
+              className="relative w-13 h-13 rounded-2xl flex items-center justify-center shadow-lg -mt-4 active:scale-90"
               style={{
                 width: 52,
                 height: 52,
@@ -82,12 +82,12 @@ function NavTab({
   return (
     <Link
       href={href}
-      className="flex-1 flex flex-col items-center justify-center gap-0.5 relative transition-all duration-150 active:scale-90 select-none"
+      className="flex-1 flex flex-col items-center justify-center gap-0.5 relative active:scale-90 select-none"
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       {/* Active indicator line at top */}
       <span
-        className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-300"
+        className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full"
         style={{
           width: active ? "2rem" : "0",
           background: active ? "linear-gradient(90deg, #a855f7, #7c3aed)" : "transparent",
@@ -97,11 +97,11 @@ function NavTab({
 
       {/* Icon */}
       <div
-        className="flex items-center justify-center w-9 h-6 rounded-xl transition-all duration-200"
+        className="flex items-center justify-center w-9 h-6 rounded-xl"
         style={{ backgroundColor: active ? "rgba(147,97,253,0.15)" : "transparent" }}
       >
         <Icon
-          className="w-5 h-5 transition-all duration-200"
+          className="w-5 h-5"
           style={{
             color: active ? "#a855f7" : "rgb(90,90,118)",
             transform: active ? "scale(1.1)" : "scale(1)",
@@ -111,7 +111,7 @@ function NavTab({
 
       {/* Label */}
       <span
-        className="text-[10px] font-semibold leading-none transition-colors duration-200"
+        className="text-[10px] font-semibold leading-none"
         style={{ color: active ? "#a855f7" : "rgb(90,90,118)" }}
       >
         {label}

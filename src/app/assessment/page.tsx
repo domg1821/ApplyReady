@@ -116,10 +116,24 @@ export default function AssessmentPage() {
     if (userId && messages.length > 0) saveChatToStorage(userId, messages);
   }, [messages, userId]);
 
-  // Auto-scroll
+  // Auto-scroll to bottom on new messages
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+
+  // When keyboard opens on iOS, scroll to bottom so Alex's message stays visible
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const onResize = () => {
+      // Small delay so layout settles after keyboard animation
+      setTimeout(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "instant" });
+      }, 60);
+    };
+    vv.addEventListener("resize", onResize);
+    return () => vv.removeEventListener("resize", onResize);
+  }, []);
 
   const startConversation = async (resume?: boolean) => {
     // If resuming saved chat
@@ -149,7 +163,7 @@ export default function AssessmentPage() {
       setMode("choose");
     } finally {
       setLoading(false);
-      setTimeout(() => inputRef.current?.focus(), 100);
+      // No auto-focus — on iOS this opens keyboard before Alex's message is visible
     }
   };
 
@@ -202,7 +216,6 @@ export default function AssessmentPage() {
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
-      setTimeout(() => inputRef.current?.focus(), 100);
     }
   };
 
