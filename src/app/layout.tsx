@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { OfflineIndicator } from "@/components/layout/OfflineIndicator";
+import { CapacitorAuthProvider } from "@/components/providers/CapacitorAuthProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -28,9 +29,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <ThemeProvider>
-          <OfflineIndicator />
-          {children}
-          <Toaster
+          <CapacitorAuthProvider>
+            <OfflineIndicator />
+            {children}
+            <Toaster
             position="top-center"
             toastOptions={{
               duration: 4000,
@@ -46,7 +48,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               success: { iconTheme: { primary: "#6366f1", secondary: "#fff" } },
               error: { iconTheme: { primary: "#ef4444", secondary: "#fff" } },
             }}
-          />
+            />
+          </CapacitorAuthProvider>
         </ThemeProvider>
       </body>
     </html>
