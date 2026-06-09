@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ArrowLeft, Shield } from "lucide-react";
+import { Shield } from "lucide-react";
+import { BackButton } from "@/components/ui/BackButton";
 
 export default function PrivacyPolicyPage() {
   const lastUpdated = "June 7, 2026";
@@ -9,9 +9,7 @@ export default function PrivacyPolicyPage() {
       {/* Header */}
       <div className="border-b flex-shrink-0" style={{ backgroundColor: "rgb(var(--surface))", borderColor: "rgb(var(--border))", paddingTop: "max(1.25rem, env(safe-area-inset-top))" }}>
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
-          <Link href="/settings" className="p-1.5 rounded-xl transition-colors" style={{ color: "rgb(var(--text-muted))" }}>
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
+          <BackButton />
           <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: "rgba(147,97,253,0.1)" }}>
             <Shield className="w-4 h-4" style={{ color: "#a855f7" }} />
           </div>

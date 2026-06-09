@@ -7,6 +7,7 @@ import { Eye, EyeOff, Mail, ArrowLeft, Loader2 } from "lucide-react";
 import { AppLogo } from "@/components/ui/AppLogo";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
+import { useCapacitorAuth } from "@/hooks/useCapacitorAuth";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
@@ -25,16 +26,10 @@ function LoginContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "apple" | null>(null);
+  const { handleOAuth: handleCapacitorOAuth } = useCapacitorAuth();
 
-  const handleOAuth = async (provider: "google" | "apple") => {
-    setOauthLoading(provider);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-    if (error) { toast.error(error.message); setOauthLoading(null); }
-  };
+  const handleOAuth = (provider: "google" | "apple") =>
+    handleCapacitorOAuth(provider, setOauthLoading);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,6 +93,11 @@ function LoginContent() {
               <p className="text-center text-xs text-gray-400 dark:text-neutral-600 pt-1">
                 Don&apos;t have an account?{" "}
                 <Link href="/signup" className="text-indigo-600 dark:text-indigo-400 font-semibold">Sign up free</Link>
+              </p>
+              <p className="text-center text-xs text-gray-300 dark:text-neutral-700 pt-1">
+                <Link href="/privacy-policy" className="underline hover:text-gray-500">Privacy Policy</Link>
+                {" · "}
+                <Link href="/terms" className="underline hover:text-gray-500">Terms of Service</Link>
               </p>
             </div>
           ) : (

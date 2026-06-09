@@ -226,7 +226,7 @@ function SlidePlans({ onPlan }: { onPlan: (p: "free" | "lifetime") => void }) {
           </div>
         </button>
       </div>
-      <p className="text-center text-xs text-gray-300 dark:text-neutral-700 flex-shrink-0 pb-2">Secure checkout · Cancel anytime</p>
+      <p className="text-center text-xs text-gray-300 dark:text-neutral-700 flex-shrink-0 pb-2">One-time payment · No subscription</p>
     </div>
   );
 }

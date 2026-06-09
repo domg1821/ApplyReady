@@ -7,6 +7,7 @@ import { Eye, EyeOff, Mail, ArrowLeft, Loader2 } from "lucide-react";
 import { AppLogo } from "@/components/ui/AppLogo";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/Button";
+import { useCapacitorAuth } from "@/hooks/useCapacitorAuth";
 import toast from "react-hot-toast";
 
 export default function SignupPage() {
@@ -26,18 +27,12 @@ function SignupContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [oauthLoading, setOauthLoading] = useState<"google" | "apple" | null>(null);
+  const { handleOAuth: handleCapacitorOAuth } = useCapacitorAuth();
 
   const plan = typeof window !== "undefined" ? sessionStorage.getItem("selectedPlan") : null;
 
-  const handleOAuth = async (provider: "google" | "apple") => {
-    setOauthLoading(provider);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
-    });
-    if (error) { toast.error(error.message); setOauthLoading(null); }
-  };
+  const handleOAuth = (provider: "google" | "apple") =>
+    handleCapacitorOAuth(provider, setOauthLoading);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,7 +161,7 @@ function SignupContent() {
                 By continuing you agree to our{" "}
                 <Link href="/terms" className="underline">Terms</Link>
                 {" "}and{" "}
-                <Link href="/privacy" className="underline">Privacy Policy</Link>.
+                <Link href="/privacy-policy" className="underline">Privacy Policy</Link>.
               </p>
             </form>
           )}

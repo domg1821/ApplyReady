@@ -199,8 +199,7 @@ export default function SettingsPage() {
               <Button
                 className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 border-0"
                 size="sm"
-                onClick={() => checkout(process.env.NEXT_PUBLIC_STRIPE_LIFETIME_PRICE_ID ?? "", "payment")}
-                loading={subLoading}
+                onClick={() => router.push("/upgrade")}
                 icon={<Infinity className="w-4 h-4" />}
               >
                 Get Lifetime Access — $15

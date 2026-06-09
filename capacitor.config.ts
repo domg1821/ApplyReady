@@ -25,15 +25,9 @@ const config: CapacitorConfig = {
       backgroundColor: "#06060f", // matches dark --bg
     },
 
-    // Push notifications (if added later)
-    PushNotifications: {
-      presentationOptions: ["badge", "sound", "alert"],
-    },
-
-    // Capacitor Browser — needed for OAuth (Google sign-in)
-    // Install: npm install @capacitor/browser
-    // Usage: import { Browser } from "@capacitor/browser";
-    //        await Browser.open({ url: supabaseOAuthUrl });
+    // Browser plugin — used for Google OAuth on iOS (SFSafariViewController)
+    // Deep-link callback returns via applyready://login-callback
+    Browser: {},
   },
 };
 
