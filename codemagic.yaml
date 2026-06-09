@@ -8,7 +8,7 @@ workflows:
       vars:
         BUNDLE_ID: com.applyready.app
       node: v22
-      xcode: 16.3
+      xcode: 26.0
 
     scripts:
       - name: Install Node dependencies
@@ -22,6 +22,11 @@ workflows:
 
       - name: Sync Capacitor plugins to iOS
         script: npx cap sync ios
+
+      - name: Install CocoaPods dependencies
+        script: |
+          cd ios/App
+          pod install --repo-update
 
       - name: Set up keychain and code signing
         script: |
