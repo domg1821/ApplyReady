@@ -140,10 +140,11 @@ export function useIAP() {
       ) {
         return false;
       }
-      // Log full error for debugging
-      console.error("Purchase error code:", err?.code, "message:", err?.message, "full:", JSON.stringify(e));
-      const msg = err?.message ?? err?.underlyingErrorMessage ?? "Purchase failed — please try again.";
-      toast.error(msg.length < 120 ? msg : "Purchase failed — please try again.");
+      // Show the full raw error so we can diagnose
+      const code = err?.code ?? err?.errorCode ?? "?";
+      const msg = err?.message ?? err?.underlyingErrorMessage ?? err?.localizedDescription ?? "Unknown error";
+      const rcMsg = err?.userInfo?.["NSLocalizedDescription"] ?? "";
+      toast.error(`[${code}] ${rcMsg || msg}`.slice(0, 150));
       return false;
     } finally {
       setLoading(false);
