@@ -3,13 +3,14 @@
 /**
  * Capacitor-aware OAuth hook.
  *
- * On iOS:
- *   - Apple  → native ASAuthorizationAppleIDProvider via @capacitor-community/apple-sign-in
- *   - Google → Supabase OAuth URL opened in SFSafariViewController via @capacitor/browser
- *              Deep-link callback: applyready://login-callback?code=...
+ * On iOS (Capacitor):
+ *   Both Apple and Google OAuth are opened in SFSafariViewController
+ *   via @capacitor/browser. After sign-in, Supabase redirects to
+ *   applyready://login-callback?code=... which is caught by the
+ *   App.addListener("appUrlOpen") handler below and exchanged for a session.
  *
  * On web:
- *   - Both providers → standard Supabase signInWithOAuth (window redirect)
+ *   Standard Supabase signInWithOAuth (window redirect).
  */
 
 import { useCallback, useEffect } from "react";
@@ -30,7 +31,8 @@ function isIOS(): boolean {
 export function useCapacitorAuth() {
   const router = useRouter();
 
-  // ── Handle deep-link callback from Browser plugin (Google OAuth on iOS) ──
+  // ── Deep-link callback handler (iOS only) ────────────────────────────────
+  // Fires when Supabase redirects back to applyready://login-callback?code=...
   useEffect(() => {
     if (!isIOS()) return;
 
@@ -44,7 +46,7 @@ export function useCapacitorAuth() {
         listenerHandle = await App.addListener("appUrlOpen", async ({ url }) => {
           if (!url.startsWith("applyready://login-callback")) return;
 
-          // Extract the code from the deep link
+          // Parse the code out of applyready://login-callback?code=xxx
           const urlObj = new URL(url.replace("applyready://", "https://dummy.com/"));
           const code = urlObj.searchParams.get("code");
 
@@ -54,7 +56,6 @@ export function useCapacitorAuth() {
             if (error) {
               toast.error("Sign in failed — please try again.");
             } else {
-              // Check if user has completed onboarding
               try {
                 const onboarded = localStorage.getItem("applyready_onboarded");
                 router.push(onboarded ? "/dashboard" : "/onboarding");
@@ -64,51 +65,16 @@ export function useCapacitorAuth() {
             }
           }
 
+          // Close the in-app browser
           await Browser.close();
         });
       } catch {
-        // Plugin not available (web environment) — safe to ignore
+        // Not in a Capacitor environment — safe to ignore
       }
     };
 
     setup();
     return () => { listenerHandle?.remove(); };
-  }, [router]);
-
-  // ── Native Apple Sign In (iOS only) ──────────────────────────────────────
-  const handleNativeAppleSignIn = useCallback(async () => {
-    try {
-      const { SignInWithApple } = await import("@capacitor-community/apple-sign-in");
-      const result = await SignInWithApple.authorize({
-        clientId: "com.applyready.app",
-        redirectURI: "applyready://login-callback",
-        scopes: "email name",
-        state: "apple-signin",
-        nonce: Math.random().toString(36).substring(2),
-      });
-
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithIdToken({
-        provider: "apple",
-        token: result.response.identityToken,
-      });
-
-      if (error) {
-        toast.error(error.message);
-        return false;
-      }
-
-      const onboarded = (() => { try { return localStorage.getItem("applyready_onboarded"); } catch { return null; } })();
-      router.push(onboarded ? "/dashboard" : "/onboarding");
-      return true;
-    } catch (e: unknown) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const err = e as any;
-      // User cancelled (error code 1001) — silent
-      if (err?.code === "1001" || err?.message?.includes("cancel")) return false;
-      toast.error("Apple sign in failed — please try again.");
-      return false;
-    }
   }, [router]);
 
   // ── Main OAuth handler ────────────────────────────────────────────────────
@@ -120,38 +86,37 @@ export function useCapacitorAuth() {
     try {
       const supabase = createClient();
 
-      if (isIOS() && provider === "apple") {
-        // Native Apple Sign In sheet
-        await handleNativeAppleSignIn();
-        return;
-      }
-
-      if (isIOS() && provider === "google") {
-        // Open Google OAuth in SFSafariViewController, return via deep link
-        const { Browser } = await import("@capacitor/browser");
+      if (isIOS()) {
+        // On iOS: get the OAuth URL from Supabase, open in SFSafariViewController
+        // skipBrowserRedirect: true prevents Supabase from doing window.location redirect
         const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
+          provider,
           options: {
             redirectTo: "applyready://login-callback",
             skipBrowserRedirect: true,
           },
         });
         if (error) { toast.error(error.message); return; }
-        if (data.url) await Browser.open({ url: data.url, presentationStyle: "popover" });
-        // Callback handled by appUrlOpen listener above
+        if (data.url) {
+          const { Browser } = await import("@capacitor/browser");
+          await Browser.open({ url: data.url, presentationStyle: "popover" });
+        }
+        // Session is set by the appUrlOpen listener above when the deep link fires
         return;
       }
 
-      // Web — standard redirect
+      // Web: standard redirect
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: { redirectTo: `${window.location.origin}/auth/callback` },
       });
       if (error) toast.error(error.message);
     } finally {
-      setLoading(null);
+      // On iOS we don't clear loading here — the appUrlOpen handler navigates away
+      // On web the page redirects so this never runs
+      if (!isIOS()) setLoading(null);
     }
-  }, [handleNativeAppleSignIn]);
+  }, []);
 
   return { handleOAuth };
 }
