@@ -61,8 +61,11 @@ export default function UpgradePage() {
 
   return (
     <div className="screen bg-gray-50 dark:bg-neutral-950 animate-page-in">
-      {/* Top accent — sits below safe area */}
-      <div className="h-1 w-full bg-gradient-to-r from-amber-400 to-orange-500 flex-shrink-0" style={{ marginTop: "env(safe-area-inset-top)" }} />
+      {/* Safe area spacer + accent stripe */}
+      <div
+        className="flex-shrink-0 bg-gradient-to-r from-amber-400 to-orange-500"
+        style={{ paddingTop: "env(safe-area-inset-top)", height: "calc(env(safe-area-inset-top) + 4px)" }}
+      />
 
       {/* Back nav */}
       <div className="flex items-center px-5 pt-3 flex-shrink-0">

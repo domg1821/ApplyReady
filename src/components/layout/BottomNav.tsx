@@ -24,10 +24,10 @@ export function BottomNav() {
     <nav
       className="fixed bottom-0 left-0 right-0 z-50 lg:hidden"
       style={{
-        background: "rgba(8,8,20,0.96)",
+        background: "rgb(var(--surface))",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderTop: "1px solid rgba(30,30,62,0.8)",
+        borderTop: "1px solid rgb(var(--border))",
         paddingBottom: "env(safe-area-inset-bottom)",
       }}
     >
@@ -86,14 +86,15 @@ function NavTab({
       style={{ WebkitTapHighlightColor: "transparent" }}
     >
       {/* Active indicator line at top */}
-      <span
-        className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 rounded-full"
-        style={{
-          width: active ? "2rem" : "0",
-          background: active ? "linear-gradient(90deg, #a855f7, #7c3aed)" : "transparent",
-          boxShadow: active ? "0 0 8px rgba(147,97,253,0.8)" : "none",
-        }}
-      />
+      {active && (
+        <span
+          className="absolute top-0 left-1/2 -translate-x-1/2 h-0.5 w-8 rounded-full"
+          style={{
+            background: "linear-gradient(90deg, #a855f7, #7c3aed)",
+            boxShadow: "0 0 8px rgba(147,97,253,0.8)",
+          }}
+        />
+      )}
 
       {/* Icon */}
       <div
@@ -102,10 +103,7 @@ function NavTab({
       >
         <Icon
           className="w-5 h-5"
-          style={{
-            color: active ? "#a855f7" : "rgb(90,90,118)",
-            transform: active ? "scale(1.1)" : "scale(1)",
-          }}
+          style={{ color: active ? "#a855f7" : "rgb(90,90,118)" }}
         />
       </div>
 

@@ -159,7 +159,11 @@ export function useIAP() {
 
       const { Purchases } = await import("@revenuecat/purchases-capacitor");
       const { customerInfo } = await Purchases.restorePurchases();
-      const hasProAccess = customerInfo.entitlements.active["pro"] !== undefined;
+      const active = customerInfo.entitlements.active;
+      const hasProAccess =
+        active["pro"] !== undefined ||
+        active["lifetime"] !== undefined ||
+        Object.keys(active).length > 0;
 
       if (hasProAccess) {
         const supabase = createClient();
