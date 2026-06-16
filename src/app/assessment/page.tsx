@@ -122,24 +122,28 @@ export default function AssessmentPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  // When iOS keyboard opens, shrink the chat container to the visible viewport
-  // so the input stays above the keyboard and messages remain scrollable
+  // When iOS keyboard opens, push the bottom of the container up by the
+  // keyboard height so the input stays visible and messages stay scrollable.
+  // We set `bottom` (not height) because the element is fixed with inset-0,
+  // and top+bottom together define height — setting height is ignored.
   useEffect(() => {
     const vv = window.visualViewport;
     if (!vv) return;
     const onResize = () => {
+      const keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
       if (chatRootRef.current) {
-        chatRootRef.current.style.height = `${vv.height}px`;
+        chatRootRef.current.style.bottom = `${keyboardHeight}px`;
       }
-      // After layout settles, keep the latest message in view
       setTimeout(() => {
         bottomRef.current?.scrollIntoView({ behavior: "instant" });
       }, 50);
     };
     vv.addEventListener("resize", onResize);
-    // Set initial height
-    onResize();
-    return () => vv.removeEventListener("resize", onResize);
+    vv.addEventListener("scroll", onResize);
+    return () => {
+      vv.removeEventListener("resize", onResize);
+      vv.removeEventListener("scroll", onResize);
+    };
   }, []);
 
   const startConversation = async (resume?: boolean) => {
@@ -781,9 +785,7 @@ export default function AssessmentPage() {
       </div>
 
       {/* Input */}
-      <div className="px-4 pt-3 border-t border-gray-100 dark:border-neutral-800 flex-shrink-0"
-        style={{ paddingBottom: "max(1.5rem, calc(env(safe-area-inset-bottom) + 0.5rem))" }}
-      >
+      <div className="px-4 pt-3 pb-4 border-t border-gray-100 dark:border-neutral-800 flex-shrink-0">
         <div className="flex items-end gap-2">
           <textarea
             ref={inputRef}
