@@ -160,7 +160,7 @@ export default function LinkedInBioPage() {
             ]).map((t) => (
               <button key={t.id} onClick={() => setTone(t.id)}
                 className="w-full flex items-center gap-3 p-3 rounded-xl text-left transition-all"
-                style={{ backgroundColor: tone === t.id ? "rgba(13,148,136,0.1)" : "rgb(var(--surface-2))", border: `1px solid ${tone === t.id ? "rgba(13,148,136,0.4)" : "rgb(var(--border)"}` }}>
+                style={{ backgroundColor: tone === t.id ? "rgba(13,148,136,0.1)" : "rgb(var(--surface-2))", border: `1px solid ${tone === t.id ? "rgba(13,148,136,0.4)" : "rgb(var(--border))"}` }}>
                 <div className="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0" style={{ borderColor: tone === t.id ? "#0d9488" : "rgb(var(--border))" }}>
                   {tone === t.id && <div className="w-2 h-2 rounded-full" style={{ backgroundColor: "#0d9488" }} />}
                 </div>
@@ -180,7 +180,7 @@ export default function LinkedInBioPage() {
         {locked ? (
           <Link href="/upgrade">
             <button className="w-full py-4 rounded-2xl text-white font-bold flex items-center justify-center gap-2" style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444)" }}>
-              <Lock className="w-5 h-5" /> Unlock with Pro — $15
+              <Lock className="w-5 h-5" /> Unlock with Pro — $14.99
             </button>
           </Link>
         ) : (

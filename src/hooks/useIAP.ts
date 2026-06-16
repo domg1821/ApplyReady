@@ -92,11 +92,10 @@ export function useIAP() {
         current.availablePackages.find((p) => p.packageType === "LIFETIME") ??
         current.availablePackages.find((p) =>
           p.identifier.toLowerCase().includes("lifetime")
-        ) ??
-        current.availablePackages[0]; // fallback to first package
+        );
 
       if (!lifetimePackage) {
-        toast.error("Lifetime package not found — try again later.");
+        toast.error("Lifetime package not found — check RevenueCat dashboard.");
         return false;
       }
 
@@ -118,10 +117,10 @@ export function useIAP() {
         if (user) {
           await supabase
             .from("profiles")
-            .update({ subscription_tier: "pro" })
+            .update({ subscription_tier: "pro", subscription_status: "lifetime" })
             .eq("id", user.id);
         }
-        toast.success("Welcome to Pro! All features unlocked 🎉");
+        toast.success("Welcome to Pro! All features unlocked.");
         return true;
       }
 
@@ -171,7 +170,7 @@ export function useIAP() {
         if (user) {
           await supabase
             .from("profiles")
-            .update({ subscription_tier: "pro" })
+            .update({ subscription_tier: "pro", subscription_status: "lifetime" })
             .eq("id", user.id);
         }
         toast.success("Purchases restored!");

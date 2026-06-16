@@ -99,11 +99,13 @@ export default function TrackerPage() {
               })
             ));
             toast.success(`Migrated ${local.length} application${local.length > 1 ? "s" : ""} to your account`);
+            localStorage.setItem(LS_MIGRATED_KEY, "1");
           } catch {
-            // Migration failed — keep using localStorage silently
+            // Migration failed — will retry next time
           }
+        } else {
+          localStorage.setItem(LS_MIGRATED_KEY, "1");
         }
-        localStorage.setItem(LS_MIGRATED_KEY, "1");
       }
 
       await fetchApps();

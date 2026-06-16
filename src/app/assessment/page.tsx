@@ -814,7 +814,7 @@ export default function AssessmentPage() {
             <Send className="w-4 h-4 text-white" />
           </button>
         </div>
-        <p className="text-center text-[10px] text-gray-300 dark:text-neutral-700 mt-2">
+        <p className="hidden lg:block text-center text-[10px] text-gray-300 dark:text-neutral-700 mt-2">
           Enter to send · Shift+Enter for new line
         </p>
       </div>

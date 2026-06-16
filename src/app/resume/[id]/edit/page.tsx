@@ -149,7 +149,7 @@ export default function EditResumePage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto animate-fade-in">
+    <div className="max-w-3xl mx-auto animate-fade-in" style={{ paddingTop: "max(1.25rem, env(safe-area-inset-top))", paddingBottom: "max(5rem, calc(env(safe-area-inset-bottom) + 4rem))" }}>
       <div className="flex items-center justify-between mb-6">
         <button
           onClick={() => router.push(`/resume/${id}`)}

@@ -231,7 +231,7 @@ export default function CoverLetterPage() {
           <Link href="/upgrade">
             <button className="w-full py-4 rounded-2xl text-white font-bold flex items-center justify-center gap-2"
               style={{ background: "linear-gradient(135deg, #f59e0b, #ef4444)" }}>
-              <Lock className="w-5 h-5" /> Unlock with Pro — $15
+              <Lock className="w-5 h-5" /> Unlock with Pro — $14.99
             </button>
           </Link>
         ) : (

@@ -99,7 +99,7 @@ export default function SettingsPage() {
       >
         <div className="max-w-2xl mx-auto px-5 pb-4 flex items-center gap-3">
           <button
-            onClick={() => router.back()}
+            onClick={() => { if (window.history.length > 1) router.back(); else router.push("/dashboard"); }}
             className="p-1.5 rounded-xl transition-colors"
             style={{ color: "rgb(var(--text-muted))" }}
           >
@@ -159,14 +159,13 @@ export default function SettingsPage() {
 
         {/* Notifications */}
         <Section icon={Bell} title="Notifications">
-          <div className="flex items-center justify-between py-1 opacity-60 cursor-not-allowed">
+          <div className="flex items-center justify-between py-1">
             <div>
               <p className="text-sm font-medium text-gray-900 dark:text-white">Email updates</p>
               <p className="text-xs text-gray-400 dark:text-neutral-500 mt-0.5">Tips, new features & job insights</p>
             </div>
-            <ChevronRight className="w-4 h-4 text-gray-300 dark:text-neutral-600" />
+            <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-gray-100 dark:bg-neutral-800 text-gray-400 dark:text-neutral-500">Soon</span>
           </div>
-          <p className="text-xs text-gray-300 dark:text-neutral-700 mt-1">Coming soon</p>
         </Section>
 
         {/* Plan */}
