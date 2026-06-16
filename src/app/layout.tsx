@@ -36,7 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             position="top-center"
             containerStyle={{
               // Push toasts below the Dynamic Island / notch on iOS
-              top: "max(1rem, calc(env(safe-area-inset-top) + 0.5rem))",
+              top: "env(safe-area-inset-top)",
+              paddingTop: "0.75rem",
             }}
             toastOptions={{
               duration: 4000,
