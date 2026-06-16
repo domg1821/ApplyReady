@@ -134,7 +134,7 @@ export default async function ToolsPage() {
         )}
 
         {/* Tool cards */}
-        <div className="space-y-2.5">
+        <div className="space-y-3">
           {TOOLS.map((tool) => {
             const locked = tool.pro && !isPro;
             const Icon = tool.icon;
@@ -199,7 +199,7 @@ export default async function ToolsPage() {
         </div>
 
         {/* Saved Outputs link */}
-        <Link href="/saved-outputs">
+        <Link href="/saved-outputs" className="mt-3 block">
           <div className="card p-4 flex items-center gap-3 cursor-pointer group">
             <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: "rgba(147,97,253,0.1)" }}>
               <Sparkles className="w-5 h-5" style={{ color: "#a855f7" }} />
@@ -214,7 +214,7 @@ export default async function ToolsPage() {
 
         {/* Assessment reminder */}
         <div
-          className="mt-2 rounded-2xl p-4 border"
+          className="mt-3 rounded-2xl p-4 border"
           style={{
             backgroundColor: "rgba(147,97,253,0.06)",
             borderColor: "rgba(147,97,253,0.15)",

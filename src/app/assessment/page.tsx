@@ -76,6 +76,7 @@ export default function AssessmentPage() {
   const router = useRouter();
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const chatRootRef = useRef<HTMLDivElement>(null);
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [userId, setUserId] = useState("");
@@ -121,17 +122,23 @@ export default function AssessmentPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  // When keyboard opens on iOS, scroll to bottom so Alex's message stays visible
+  // When iOS keyboard opens, shrink the chat container to the visible viewport
+  // so the input stays above the keyboard and messages remain scrollable
   useEffect(() => {
     const vv = window.visualViewport;
     if (!vv) return;
     const onResize = () => {
-      // Small delay so layout settles after keyboard animation
+      if (chatRootRef.current) {
+        chatRootRef.current.style.height = `${vv.height}px`;
+      }
+      // After layout settles, keep the latest message in view
       setTimeout(() => {
         bottomRef.current?.scrollIntoView({ behavior: "instant" });
-      }, 60);
+      }, 50);
     };
     vv.addEventListener("resize", onResize);
+    // Set initial height
+    onResize();
     return () => vv.removeEventListener("resize", onResize);
   }, []);
 
@@ -707,7 +714,7 @@ export default function AssessmentPage() {
   const progressCount = PROGRESS_STEPS.filter((s) => progress.has(s.key)).length;
 
   return (
-    <div className="screen bg-white dark:bg-neutral-950">
+    <div ref={chatRootRef} className="screen bg-white dark:bg-neutral-950">
       {/* Header */}
       <div
         className="flex-shrink-0"
