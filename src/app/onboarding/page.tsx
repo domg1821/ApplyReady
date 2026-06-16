@@ -185,7 +185,7 @@ function SlidePlans({ onPlan }: { onPlan: (p: "free" | "lifetime") => void }) {
       <div className="flex-shrink-0 pb-5">
         <p className="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-widest mb-3">Choose a plan</p>
         <h2 className="text-[28px] font-bold text-gray-900 dark:text-white leading-tight mb-2">Start free or<br />go all in.</h2>
-        <p className="text-gray-400 dark:text-neutral-500 text-sm">One payment of $15 unlocks everything — forever.</p>
+        <p className="text-gray-400 dark:text-neutral-500 text-sm">One payment of $14.99 unlocks everything — forever.</p>
       </div>
       <div className="flex-1 flex flex-col justify-center gap-3 pb-2">
         <button onClick={() => onPlan("free")} className="w-full text-left bg-gray-50 dark:bg-neutral-900 border border-gray-200 dark:border-neutral-800 rounded-2xl p-5 active:scale-[0.98] transition-transform">
@@ -208,7 +208,7 @@ function SlidePlans({ onPlan }: { onPlan: (p: "free" | "lifetime") => void }) {
           <div className="flex items-center justify-between mb-1">
             <span className="text-sm font-bold text-white/70">Lifetime</span>
             <div className="flex items-baseline gap-1">
-              <span className="text-2xl font-bold text-white">$15</span>
+              <span className="text-2xl font-bold text-white">$14.99</span>
               <span className="text-white/50 text-xs">once</span>
             </div>
           </div>

@@ -704,12 +704,12 @@ export default function AssessmentPage() {
               </button>
               <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)" }}>
                 <p className="text-white font-bold text-sm mb-1">Want Alex to write it for you?</p>
-                <p className="text-white/80 text-xs mb-3">Pro AI rewrites every bullet for maximum impact. One-time $15, forever.</p>
+                <p className="text-white/80 text-xs mb-3">Pro AI rewrites every bullet for maximum impact. One-time $14.99, forever.</p>
                 <button
                   onClick={() => router.push("/upgrade")}
                   className="w-full py-2.5 bg-white text-amber-600 text-sm font-bold rounded-xl active:scale-[0.98] transition-all"
                 >
-                  Get Lifetime Pro — $15
+                  Get Lifetime Pro — $14.99
                 </button>
               </div>
             </div>

@@ -29,8 +29,11 @@ export default function SettingsPage() {
   const [showDelete, setShowDelete] = useState(false);
   const [deleteInput, setDeleteInput] = useState("");
   const [deleting, setDeleting] = useState(false);
+  const [onIOS, setOnIOS] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setOnIOS((window as any).Capacitor?.getPlatform?.() === "ios");
     const load = async () => {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
@@ -182,15 +185,21 @@ export default function SettingsPage() {
               </div>
             </div>
           ) : isPro ? (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={manageSubscription}
-              loading={subLoading}
-              icon={<CreditCard className="w-4 h-4" />}
-            >
-              Manage billing
-            </Button>
+            onIOS ? (
+              <p className="text-xs text-gray-400 dark:text-neutral-500">
+                Purchased via App Store
+              </p>
+            ) : (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={manageSubscription}
+                loading={subLoading}
+                icon={<CreditCard className="w-4 h-4" />}
+              >
+                Manage billing
+              </Button>
+            )
           ) : (
             <div className="space-y-3">
               <p className="text-sm text-gray-500 dark:text-neutral-400">
@@ -202,7 +211,7 @@ export default function SettingsPage() {
                 onClick={() => router.push("/upgrade")}
                 icon={<Infinity className="w-4 h-4" />}
               >
-                Get Lifetime Access — $15
+                Get Lifetime Access — $14.99
               </Button>
             </div>
           )}

@@ -109,7 +109,7 @@ export default async function DashboardPage({
                 <Crown className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="font-bold text-white text-sm">Lifetime Access — $15</p>
+                <p className="font-bold text-white text-sm">Lifetime Access — $14.99</p>
                 <p className="text-white/70 text-xs">Cover letter · Interview prep · All 15 templates · Forever</p>
               </div>
             </div>

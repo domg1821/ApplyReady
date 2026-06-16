@@ -124,7 +124,7 @@ export default async function ToolsPage() {
               <div className="flex items-center gap-3">
                 <Crown className="w-5 h-5 text-white flex-shrink-0" />
                 <div>
-                  <p className="font-bold text-white text-sm">Unlock all AI tools — $15 lifetime</p>
+                  <p className="font-bold text-white text-sm">Unlock all AI tools — $14.99 lifetime</p>
                   <p className="text-white/70 text-xs">Cover letter, job match, interview prep + more</p>
                 </div>
               </div>

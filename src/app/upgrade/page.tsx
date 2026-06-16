@@ -102,7 +102,7 @@ export default function UpgradePage() {
           </div>
           <div className="flex items-center gap-2">
             <Lock className="w-3.5 h-3.5 text-white/50" />
-            <span className="text-white/60 text-xs">Secure checkout · 7-day money-back guarantee</span>
+            <span className="text-white/60 text-xs">Secure checkout · Payment processed by Apple</span>
           </div>
         </div>
 

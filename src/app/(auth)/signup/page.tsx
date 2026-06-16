@@ -108,6 +108,11 @@ function SignupContent() {
                 Already have an account?{" "}
                 <Link href="/login" className="text-indigo-600 dark:text-indigo-400 font-semibold">Sign in</Link>
               </p>
+              <p className="text-center text-xs text-gray-400 dark:text-neutral-600">
+                <Link href="/privacy-policy" className="underline">Privacy Policy</Link>
+                {" · "}
+                <Link href="/terms" className="underline">Terms of Service</Link>
+              </p>
             </div>
           ) : (
             <form onSubmit={handleSignup} className="space-y-4 animate-page-in">
