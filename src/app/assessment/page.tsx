@@ -122,27 +122,35 @@ export default function AssessmentPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  // When iOS keyboard opens, push the bottom of the container up by the
-  // keyboard height so the input stays visible and messages stay scrollable.
-  // We set `bottom` (not height) because the element is fixed with inset-0,
-  // and top+bottom together define height — setting height is ignored.
+  // Use @capacitor/keyboard for reliable keyboard height on iOS.
+  // visualViewport doesn't fire reliably in Capacitor with scrollEnabled:false.
   useEffect(() => {
-    const vv = window.visualViewport;
-    if (!vv) return;
-    const onResize = () => {
-      const keyboardHeight = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      if (chatRootRef.current) {
-        chatRootRef.current.style.bottom = `${keyboardHeight}px`;
+    let showHandle: { remove: () => void } | null = null;
+    let hideHandle: { remove: () => void } | null = null;
+
+    const setup = async () => {
+      try {
+        const { Keyboard } = await import("@capacitor/keyboard");
+        showHandle = await Keyboard.addListener("keyboardWillShow", (info) => {
+          if (chatRootRef.current) {
+            chatRootRef.current.style.bottom = `${info.keyboardHeight}px`;
+          }
+          setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "instant" }), 50);
+        });
+        hideHandle = await Keyboard.addListener("keyboardWillHide", () => {
+          if (chatRootRef.current) {
+            chatRootRef.current.style.bottom = "0px";
+          }
+        });
+      } catch {
+        // Not in Capacitor — no-op
       }
-      setTimeout(() => {
-        bottomRef.current?.scrollIntoView({ behavior: "instant" });
-      }, 50);
     };
-    vv.addEventListener("resize", onResize);
-    vv.addEventListener("scroll", onResize);
+
+    setup();
     return () => {
-      vv.removeEventListener("resize", onResize);
-      vv.removeEventListener("scroll", onResize);
+      showHandle?.remove();
+      hideHandle?.remove();
     };
   }, []);
 

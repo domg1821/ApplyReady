@@ -16,6 +16,7 @@
     "@capacitor/core": "^8.4.0",
     "@capacitor/haptics": "^8.0.2",
     "@capacitor/ios": "^8.4.0",
+    "@capacitor/keyboard": "^8.0.3",
     "@revenuecat/purchases-capacitor": "^13.1.5",
     "@stripe/stripe-js": "^4.0.0",
     "@supabase/ssr": "^0.5.0",
